@@ -1,4 +1,47 @@
-# Arch-Linux-Installation
+# Arch-Linux-Installation-Guide
+
+This is a work in progress...
+
+
+### Establish an internet connection
+The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To connect to a WiFi network:
+
+	wifi-menu
+
+
+### Make sure EFI is running
+Most modern systems use EFI instead of MBR to boot. The disk partitioning is slightly different on EFI systems. This document assumes EFI. If EFI is running, the following command should show output:
+
+	efivar -l
+
+Or alternately
+
+	ls /sys/firmware/efi/efivars
+
+### Zero the hard drive
+First, delete any existing partitions from the drive. To see how your drive is partitioned use `fdisk -l`. If you need to remove partitions use;
+
+	parted -s /dev/sda rm 1
+	parted -s /dev/sda rm 2
+	parted -s /dev/sda rm 3
+	etc.
+
+Then zero the drive with random data:
+
+	dd if=/dev/urandom of=/dev/sd* status=progress
+
+
+### Determine which drive partition you will be using
+
+	fdisk -l
+
+
+### Partition the drive
+
+
+
+
+
 
 ### Check if your Wireless Lan Interface is working
     ip link
