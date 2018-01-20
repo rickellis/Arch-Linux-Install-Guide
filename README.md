@@ -79,13 +79,13 @@ The sizes below can be specified in megabytes (100M) or gigs (10G)
 	lvcreate -n root -l 100%FREE  arch
 
 
-### Encrypt the partition and create the filesystem
+### Encrypt the root partition
 	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/LVM-root
 
 ### Decrypt the newly encrypted partition
 	cryptsetup open /dev/mapper/arch-root root
 
-### Format the partitions:
+### Create filesystems on the two partitions
 	mkfs.vfat -F32 /dev/sda1
 	mkfs.ext4 /dev/mapper/root
 
