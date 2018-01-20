@@ -2,6 +2,8 @@
 
 #### These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
 
+__NOTE:__ This document is NOT complete! I'm in the process of consolidating notes I've made from various places. I hope to be done with this project soon.
+
 ---
 
 ### Before you begin, plan your disc partitioning strategy
@@ -134,73 +136,7 @@ The sizes below can be specified in megabytes (100M) or gigs (10G)
 	mount /dev/sda1 /mnt/boot
 
 
- 
-### Choose download mirror (optional)
-	nano /etc/pacman.d/mirrorlist
- 
-### Install base packages
-	pacstrap -i /mnt base base-devel
- 
-### Configure fstab (run only once!) and verify it
-	genfstab -U -p /mnt >> /mnt/etc/fstab
-	nano /mnt/etc/fstab
- 
-### Change to your root directory
-	arch-chroot /mnt
- 
-### Language and Time Zone settings (find and un-comment)
-	nano /etc/locale.gen
-	locale-gen
-	echo LANG=en_US.UTF-8 > /etc/locale.conf
-	export LANG=en_US.UTF-8
-	 s
-	ls /usr/share/zoneinfo/
-	ln -s /usr/share/zoneinfo/<zone>/ /etc/localtime
-	hwclock --systohc --utc
- 
-### Set hostname
-	Note: Change "arch" to whatever you want your host to be.
-	echo arch > /etc/hostname
- 
-### Create user
-	useradd -m -G wheel,users -s /bin/bash <username>
 
-### Set password for user
-	passwd <username>
 
-### Set root password:
-	passwd
- 
-### Install sudo / add user to the admin-group
-	pacman -S sudo bash-completion
-	EDITOR=nano visudo
 
-### and un-comment: 
-	%wheel ALL=(ALL) ALL
- 
- 
-### Enable multilib repositories: find and un-comment both lines
-	nano /etc/pacman.conf
-	[multilib]
-	Include = /etc/pacman.d/mirrorlist
 
-### Add Yaourt repository (same file pacman.conf)
-	[archlinuxfr]
-	SigLevel = Never
-	Server = http://repo.archlinux.fr/$arch
-
-### and install yaourt
-	pacman -Sy yaourt customizepkg rsync
- 
-### Advanced Linux Sound Architecture (ALSA)
-	pacman -S alsa-utils pulseaudio alsa-oss alsa-lib
-	amixer sset Master unmute
-
-### to test sound
-	speaker-test -c 2
- 
-### Install Boot-loader (grub)
-
- 
-### Enable ethernet interface service at boot (find interface with ip link)
-systemctl enable dhcpcd@.service
