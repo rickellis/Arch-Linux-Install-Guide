@@ -61,17 +61,26 @@ To test your connection:
 
 ## Drive setup
 
-### To view your disc partitions:
+__IMPORTANT:__ Make sure you change the device nodes in all of my examples to your particular nodes. For example, in this document I might use:
+
+/dev/sd*
+
+But on my Dell XPS the actual node might be called:
+
+/dev/nvme0n1p1
+
+
+### To view your disc information:
 
 	fdisk -l
 
 
 ### Delete existing disk partitions
-This step is only necessary if you are using a drive with existing partitions. To remove partitions you can use parted:
+This step is only necessary if you are using a drive with existing partitions. If you are installing onto a drive with unallocated space, skip this step. To remove partitions you can use parted:
 
-	parted -s /dev/sda rm 1
-	parted -s /dev/sda rm 2
-	parted -s /dev/sda rm 3
+	parted -s /dev/sd* rm 1
+	parted -s /dev/sd* rm 2
+	parted -s /dev/sd* rm 3
 	etc.
 
 
@@ -85,15 +94,14 @@ Or if you're paranoid you can use a multi-pass tool like shred;
 
 	shred -vfz -n 5 /dev/sd*
 
-__IMPORTANT:__ _Make sure you are pointing to the partition you want to overwrite. The above are just examples_
 
 
 ### Partition the drive
-There are a number of tools available. This is how to do it using parted.
+There are a number of tools available on Arch by default. This is how to do it using parted.
 
 __NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition (If you're dual booting with Windows then you will already have a boot partition that can be shared with your Linux installation, so you can skip creating it), the second is the root partition where our LVM will live._
 
-	parted /dev/sda
+	parted /dev/sd*
 	(parted) mklabel gpt
 	(parted) mkpart primary 1MiB 512MiB name 1 boot
 	(parted) mkpart primary 512MiB 100% name 2 root
