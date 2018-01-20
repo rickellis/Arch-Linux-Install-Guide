@@ -1,17 +1,21 @@
 # Arch-Linux-Installation
 
 ### Check if your Wireless Lan Interface is working
-ip link
+    ip link
+
 ### Connect to your Wifi-Network and check connection to the Internet
-wpa_passphrase <passphrase> | wpa_supplicant -B -i <SSID> -c /dev/stdin
-dhcpcd 
-ping -c 3 www.google.com
+
+    wpa_passphrase <passphrase> | wpa_supplicant -B -i <SSID> -c /dev/stdin
+    dhcpcd 
+    ping -c 3 www.google.com
  
 ### Format root and home partitions using
-mkfs.ext4 /dev/sdxX
+    mkfs.ext4 /dev/sdxX
+
 ### Format/Enable SWAP
-mkswap /dev/sdaZ
-swapon /dev/sdaZ
+    mkswap /dev/sdaZ
+    swapon /dev/sdaZ
+
 ### Check partitions with this command
 lsblk /dev/sdx
  
