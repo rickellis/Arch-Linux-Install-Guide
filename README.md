@@ -52,8 +52,11 @@ To test your connection:
 	ping -c 3 www.google.com
 
 
+---
 
-To view your disc partitions:
+## Drive setup
+
+### To view your disc partitions:
 
 	fdisk -l
 
@@ -135,7 +138,7 @@ The sizes below can be specified in megabytes (100M) or gigs (10G)
 	mkdir /mnt/boot
 	mount /dev/sda1 /mnt/boot
 
-
+---
 
 
 
