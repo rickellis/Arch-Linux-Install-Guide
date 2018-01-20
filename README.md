@@ -4,24 +4,27 @@ These are the steps necessary to install <a href="https://www.archlinux.org/">Ar
 
 ---
 
+### Enable UEFI, disable Secure Boot
+
+Hold F12 during startup to access bios. Then...
+
+Make sure UEFI is on. Most modern systems use EFI, so it generally is by default.
+
+If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use disk encryption on the partition containing Windows, as it requires secure boot.
+
+---
+
+
 ### <a href="https://www.archlinux.org/download/">Download</a> the ISO and create a bootable USB thumb drive
 The simplest way to create a bootable USB on Linux is using the dd command:
 
 	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
 
-### Disable Secure Boot
-Hold F12 during startup to access bios. If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Secure boot is enabled by default on most modern Windows hardware. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use disk encryption on the partition containing Windows, as it requires secure boot.
-
 
 ### Boot Arch Linux from the USB thumb drive
 Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
-
-### Make sure EFI is running
-Most modern systems use EFI. Let's make sure. The following command should output a list of variables. If it doesn't then EFI is not enabled, so you should look do a more traditional installation using MBR/GRUB.
-
-	efivar -l
 
 
 ### Establish an internet connection
