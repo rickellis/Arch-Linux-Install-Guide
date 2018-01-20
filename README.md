@@ -62,14 +62,15 @@ There are a number of tools available. This is how to do it using parted:
 
 
 ### Create a physical volume
-pvcreate /dev/sda2
+	pvcreate /dev/sda2
 
 ### Create a volume group
-I'm naming it 'arch'
-vgcreate arch /dev/sda2
+I'm naming it "arch"
+
+	vgcreate arch /dev/sda2
 
 ### Create logical volumes for swap and root
-NOTE: The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM. (ie, 8GB RAM = 12GB swap).
+__NOTE:__ _The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM. (ie, 8GB RAM = 12GB swap)._
 
 The sizes below can be specified in megabytes (100M) or gigs (10G)
 
