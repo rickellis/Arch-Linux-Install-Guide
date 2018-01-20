@@ -37,10 +37,12 @@ The simplest way to create a bootable USB on Linux is using the dd command:
 
 If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
 
+---
 
 ### Boot Arch Linux from the USB drive
 Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
+---
 
 ### Establish an internet connection
 The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. However, you can usually get WiFi working by running:
