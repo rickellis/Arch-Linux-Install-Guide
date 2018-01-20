@@ -1,6 +1,6 @@
 # Arch Linux Installation Guide
 
-These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
+#### These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
 
 ---
 
@@ -36,7 +36,7 @@ The simplest way to create a bootable USB on Linux is using the dd command:
 If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
 
 
-### Boot Arch Linux from the USB thumb drive
+### Boot Arch Linux from the USB drive
 Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
 
