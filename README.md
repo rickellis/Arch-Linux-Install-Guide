@@ -1,14 +1,14 @@
 # Arch Linux Installation Guide
 
-These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">EFI</a>.
+These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
 
 ---
 
 ### Enable UEFI, disable Secure Boot
 
-Hold F12 during startup to access bios. Then...
+Hold F12 (or whatever key is used on your system) during startup to access bios. Then...
 
-Make sure UEFI is on. Most modern systems use EFI, so it generally is by default.
+Make sure UEFI is on. Most modern systems use UEFI, so it generally is by default.
 
 If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use disk encryption on the partition containing Windows, as it requires secure boot.
 
