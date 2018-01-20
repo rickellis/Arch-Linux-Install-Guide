@@ -19,12 +19,10 @@ Hold F12 during startup to access startup menu. Select the USB drive and boot in
 
 
 ### Make sure EFI is running
-Most modern systems use EFI. Let's make sure. The following command should output a list of variables. If it doesn't then EFI is not enabled.
+Most modern systems use EFI. Let's make sure. The following command should output a list of variables. If it doesn't then EFI is not enabled, so you should look do a more traditional installation using MBR/GRUB.
 
 	efivar -l
 
-
----
 
 ### Establish an internet connection
 The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To test your wired connection:
