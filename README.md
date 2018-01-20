@@ -34,15 +34,14 @@ The simplest way to create a bootable USB on Linux is using the dd command:
 Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
 
-
 ### Establish an internet connection
-The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To test your wired connection:
-	
-	ping -c 3 www.google.com
-
-To connect to a WiFi network:
+The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. However, you can usually get WiFi working by running:
 
 	wifi-menu
+
+To test your connection:
+	
+	ping -c 3 www.google.com
 
 
 ### Plan your disc partitioning strategy
