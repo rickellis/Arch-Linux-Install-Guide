@@ -4,8 +4,8 @@ These are the steps necessary to install <a href="https://www.archlinux.org/">Ar
 
 ---
 
-### Plan your disc partitioning strategy
-Before you begin make sure you know how you intend on partitioning your drive. I typically run Linux on a dual-boot system with Windows. Generally I'll install Windows first, then reduce the size of the partition, freeing up enough unallocated space for Linux. If I'm running a single boot system on either a new drive or a repurposed drive then I can simply kill all existing partitions before partitioning the drive as described below.
+### Before you begin, plan your disc partitioning strategy
+I typically run Linux on a dual-boot system with Windows. Generally I'll install Windows first, then reduce the size of the partition, freeing up enough unallocated space for Linux. If I'm running a single boot system on either a new drive or a repurposed drive then I can remove all existing partitions (described below) before partitioning the drive.
 
 ---
 
