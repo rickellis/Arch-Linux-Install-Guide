@@ -43,7 +43,7 @@ If you are dual booting with Windows turn off Fast Start. Fast Start puts Window
 ---
 
 ### Boot Arch Linux from the USB drive
-Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
+Hold F12 (or whatever key is used on your system) during startup to access startup menu. Select the USB drive and boot into Arch.
 
 ---
 
