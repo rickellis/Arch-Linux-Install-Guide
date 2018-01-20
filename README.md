@@ -110,7 +110,7 @@ __ALSO:__ _The amount of swap space is a function of how much ram you have. The 
 The sizes below can be specified in megabytes (100M) or gigs (10G)
 
 	lvcreate -n swap -L 500M arch
-	lvcreate -n root -l 100%FREE  arch
+	lvcreate -n root -l 100%FREE arch
 
 
 ### Encrypt the root partition 
