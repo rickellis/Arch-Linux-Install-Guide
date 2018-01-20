@@ -1,10 +1,24 @@
 # Arch-Linux-Installation-Guide
 
-This is a work in progress...
+These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with full disk encryption and using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">EFI</a>. We will use <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption.
+
+
+### Download the ISO and create a bootable USB
+The simplest way to create a bootable USB on Linux is using the dd command:
+
+	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
+
+
+### Boot from the USB
+Hold F12 during startup to access bios. Select the USB drive and boot into Arch.
 
 
 ### Establish an internet connection
-The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To connect to a WiFi network:
+The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To test your wired connection:
+	
+	ping -c 3 www.google.com
+
+To connect to a WiFi network:
 
 	wifi-menu
 
@@ -14,9 +28,7 @@ Most modern systems use EFI instead of MBR to boot. The disk partitioning is sli
 
 	efivar -l
 
-Or alternately
 
-	ls /sys/firmware/efi/efivars
 
 ### Zero the hard drive
 First, delete any existing partitions from the drive. To see how your drive is partitioned use `fdisk -l`. If you need to remove partitions use;
@@ -41,16 +53,6 @@ Then zero the drive with random data:
 
 
 
-
-
-### Check if your Wireless Lan Interface is working
-    ip link
-
-### Connect to your Wifi-Network and check connection to the Internet
-
-    wpa_passphrase <passphrase> | wpa_supplicant -B -i <SSID> -c /dev/stdin
-    dhcpcd 
-    ping -c 3 www.google.com
  
 ### Format root and home partitions using
     mkfs.ext4 /dev/sdxX
@@ -85,13 +87,14 @@ nano /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 export LANG=en_US.UTF-8
- 
+ s
 ls /usr/share/zoneinfo/
 ln -s /usr/share/zoneinfo/<zone>/ /etc/localtime
 hwclock --systohc --utc
  
 ### Set hostname
-echo  > /etc/hostname
+Note: Change "arch" to whatever you want your host to be.
+	echo arch > /etc/hostname
  
 ### Create users (create admin psswd)
 ### useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
