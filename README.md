@@ -10,15 +10,15 @@ Hold F12 (or whatever key is used on your system) during startup to access bios.
 
 ### Turn UEFI on
 
-Make sure UEFI is on. Most modern systems use UEFI, so it generally is by default.
+Make sure UEFI is on. Most modern systems use UEFI, so it's generally on by default.
 
 ### Disable Secure Boot
 
-If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use disk encryption on the partition containing Windows, as it requires secure boot.
+If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use BitLocker disk encryption on the partition containing Windows, as it requires secure boot.
 
 ### Disable Fast Start
 
-If you are dual botting with Windows turn off Fast Start. Fast Start puts Windows systems into hybernation when you power off. Because some systems are still active during hibernation, booting into a Linux system can cause various problems.
+If you are dual botting with Windows turn off Fast Start. Fast Start puts Windows into hybernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various problems.
 
 ---
 
@@ -45,39 +45,49 @@ To connect to a WiFi network:
 	wifi-menu
 
 
+### Plan your disc partitioning strategy
+I typically run Linux on a dual-boot system with Windows. Generally I'll install Windows first, then reduce the size of the partition, freeing up enough unalocated space for Linux. If I'm running a single boot system on either a new drive or a repurposed drive then I can simply kill all existing partitions (see below).
+
+To view your disc partitions:
+
+	fdisk -l
+
+
 ### Delete existing disk partitions
-This step is only necessary if you are using a drive with existing partitions. To see how your drive is partitioned use `fdisk -l`. If you need to remove partitions you can use parted:
+This step is only necessary if you are using a drive with existing partitions. To remove partitions you can use parted:
 
 	parted -s /dev/sda rm 1
 	parted -s /dev/sda rm 2
 	parted -s /dev/sda rm 3
 	etc.
 
+
 ### Zero the hard drive with random data
+
+Not really necessary, but I like knowing that I'm using a drive with no data.
 
 	dd if=/dev/urandom of=/dev/sd* status=progress
 
 
-### Determine which drive partition you will be using
-
-	fdisk -l
-
-
 ### Partition the drive
-There are a number of tools available. This is how to do it using parted:
+There are a number of tools available. This is how to do it using parted.
+
+__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition (If you're dual booting with Windows then you will aready have a boot partition that can be shared with your Linux installation, so you can skip creating it), the second is the root partition where our LVM will live._
 
 	parted /dev/sda
 	(parted) mklabel gpt
-	(parted) mkpart primary 1MiB 500MiB name 1 boot
-	(parted) mkpart primary 501MiB 100% name 2 root
+	(parted) mkpart primary 1MiB 512MiB name 1 boot
+	(parted) mkpart primary 512MiB 100% name 2 root
 	(parted)  quit
+
+
 
 
 ### Create a physical volume
 	pvcreate /dev/sda2
 
 ### Create a volume group
-I'm naming it "arch"
+I usually name it "arch"
 
 	vgcreate arch /dev/sda2
 
