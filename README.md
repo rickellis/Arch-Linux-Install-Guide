@@ -18,6 +18,14 @@ Hold F12 during startup to access bios. If secure boot is enabled it must be tur
 Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
 
+### Make sure EFI is running
+Most modern systems use EFI. Let's make sure. The following command should output a list of variables. If it doesn't then EFI is not enabled.
+
+	efivar -l
+
+
+---
+
 ### Establish an internet connection
 The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. To test your wired connection:
 	
@@ -26,12 +34,6 @@ The most reliable way is to use a wired connection, as Arch is setup by default 
 To connect to a WiFi network:
 
 	wifi-menu
-
-
-### Make sure EFI is running
-Most modern systems use EFI. Let's make sure. The following command should output a list of variables. If it doesn't then EFI is not enabled.
-
-	efivar -l
 
 
 ### Delete existing disk partitions
