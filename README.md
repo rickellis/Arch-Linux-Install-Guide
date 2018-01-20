@@ -61,7 +61,7 @@ To test your connection:
 
 ## Drive setup
 
-__IMPORTANT:__ Make sure you change the device nodes in all of my examples to your particular nodes. For example, in this document I might use:
+__IMPORTANT:__ Make sure you change the device nodes in all of the examples to your particular nodes. For example, in this document I might use:
 
 	/dev/sd*
 
