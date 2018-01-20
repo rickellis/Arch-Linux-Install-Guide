@@ -11,6 +11,16 @@ I typically run Linux on a dual-boot system with Windows. I've also run triple b
 
 ---
 
+
+### <a href="https://www.archlinux.org/download/">Download</a> the ISO and create a bootable USB thumb drive
+The simplest way to create a bootable USB on Linux is using the dd command:
+
+	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
+
+If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
+
+---
+
 ## BIOS Configuration
 
 Hold F12 (or whatever key is used on your system) during startup to access bios. Then...
@@ -27,15 +37,6 @@ If secure boot is enabled it must be turned off since Linux boot loaders don't t
 
 If you are dual booting with Windows turn off Fast Start. Fast Start puts Windows into hibernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various problems.
 
----
-
-
-### <a href="https://www.archlinux.org/download/">Download</a> the ISO and create a bootable USB thumb drive
-The simplest way to create a bootable USB on Linux is using the dd command:
-
-	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
-
-If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
 
 ---
 
