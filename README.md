@@ -9,8 +9,12 @@ The simplest way to create a bootable USB on Linux is using the dd command:
 	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
 
-### Boot from the USB
-Hold F12 during startup to access bios. Select the USB drive and boot into Arch.
+### Disable Secure Boot
+Hold F12 during startup to access bios. If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Secure boot is enabled by default on most modern Windows hardware. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use disk encryption on the partition containing Windows, as it requires secure boot.
+
+
+### Boot Arch Linux from the live USB
+Hold F12 during startup to access startup menu. Select the USB drive and boot into Arch.
 
 
 ### Establish an internet connection
