@@ -105,7 +105,7 @@ I usually name mine "arch". If you use something else you'll need to replace it 
 
 __NOTE:__ I typically only use two volumes (swap and root) rather than 3 (swap, root, and home) so I can encrypt the entire root volume with my home directory in it. If you prefer three volumes then you'll need to adjust all the disc operations that follow.
 
-__ALSO:__ _The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM. (ie, 8GB RAM = 12GB swap)._
+__ALSO:__ _The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM (ie, 8GB RAM = 12GB swap) if you typically run multiple RAM intensive processes simultaneously. The average user won't need much swap._
 
 The sizes below can be specified in megabytes (100M) or gigs (10G)
 
