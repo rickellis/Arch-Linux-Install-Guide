@@ -7,7 +7,9 @@ __NOTE:__ This document is NOT complete! I'm in the process of consolidating not
 ---
 
 ### Before you begin, plan your disc partitioning strategy
-I typically run Linux on a dual-boot system with Windows. I've also run triple boot systems, with Windows and two different Linux distros. In either case I'll generally install Windows first, then reduce the size of the partition, freeing up enough unallocated space for Linux. If you are installing Linux on a dedicated drive then all you will need to do is remove the existing partitions, which can be done once you've booted from the installation media. The process is described in the drive setup instructions below.
+I typically run Linux on a dual-boot system with Windows. I've also run triple boot systems, with Windows and two different Linux distros. In either case I'll generally install Windows first, then reduce the size of the partition, freeing up enough unallocated space for Linux.
+
+If you are installing Linux on a dedicated drive then all you will need to do is remove the existing partitions, which can be done once you've booted from the installation media. The process is described in the drive setup section below.
 
 ---
 
