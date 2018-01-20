@@ -33,6 +33,7 @@ The simplest way to create a bootable USB on Linux is using the dd command:
 
 	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
+If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
 
 
 ### Boot Arch Linux from the USB thumb drive
