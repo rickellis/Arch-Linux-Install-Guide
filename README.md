@@ -3,7 +3,7 @@
 These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">EFI</a>.
 
 
-### Download the ISO and create a bootable USB
+### <a href="https://www.archlinux.org/download/">Download</a> the ISO and create a bootable USB
 The simplest way to create a bootable USB on Linux is using the dd command:
 
 	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
