@@ -63,11 +63,11 @@ To test your connection:
 
 __IMPORTANT:__ Make sure you change the device nodes in all of my examples to your particular nodes. For example, in this document I might use:
 
-/dev/sd*
+	/dev/sd*
 
 But on my Dell XPS the actual node might be called:
 
-/dev/nvme0n1p1
+	/dev/nvme0n1p1
 
 
 ### To view your disc information:
