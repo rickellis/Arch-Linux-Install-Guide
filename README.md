@@ -2,8 +2,6 @@
 
 #### These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager (LVM)</a> under <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
 
-__NOTE:__ This document is NOT complete! I'm in the process of consolidating notes I've made from various places. I hope to be done with this project soon.
-
 ---
 
 ### Before you begin, plan your disc partitioning strategy
