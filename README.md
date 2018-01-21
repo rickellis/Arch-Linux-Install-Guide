@@ -52,7 +52,7 @@ To view your disc information:
 
 ### Delete Existing Disk Partitions
 
-This step is only necessary if you are using a drive with existing partitions. If you are installing onto a drive with unallocated space, skip this step. 
+This step is only necessary if you are using a drive with existing partitions. If you are installing onto a drive with unallocated space, skip this step.
 
 To remove partitions you can use parted:
 
@@ -63,7 +63,7 @@ To remove partitions you can use parted:
 
 ### Zero Hard Drive with Random Data
 
-Optional step if you are using a previously used drive. Here's how to do it using dd:
+Optional step if you are using a hard drive with existing data. Here's how to do it using dd:
 
     dd if=/dev/urandom of=/dev/sd* status=progress
 
@@ -75,7 +75,7 @@ Or if you're paranoid you can use a multi-pass tool like shred.
 
 ## Partition Hard Drive
 
-__NOTE:__ Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live.
+__NOTE:__ Since we're using LVM we only need two drive partitions: boot, and root. The LVM will live on root.
 
 First, launch __parted__ on your desired drive node;
 
@@ -123,7 +123,7 @@ __Note:__ I'm labelling my volume group as "vg".
 
 At minimum we need two volumes. One for swap, the other for root. We can additionally put home on its own volume.
 
-__Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G). 
+__Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G).
 
 __Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercalse l lets you specify percentages.
 
@@ -133,19 +133,12 @@ __Also__ the "L" arguments below are case sensitive. The capital L is used when 
 
 ### Create Filesystems
 
-__Note:__ We also format the boot partition, which is on our non-LVM partition.
+__Note:__ The boot partition is on the non-LVM partition.
 
     mkfs.vfat -F32 /dev/sd*
     mkfs.ext4 /dev/mapper/vg-root
     mkfs.ext4 /dev/mapper/vg-home
-
-### Create swap
-
     mkswap /dev/mapper/vg-swap
-
-### Enable Swap
-
-    swapon -s /dev/mapper/vg-swap
 
 ### Mount the volumes
 
@@ -159,46 +152,50 @@ We need to create a couple directories while we're at it.
     mkdir /mnt/boot
     mount /dev/sda1 /mnt/boot
 
+### Enable Swap
+
+    swapon -s /dev/mapper/vg-swap
+
 ---
 
 ## Update mirrorlist
+
 By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that you use an application called reflector.
 
-### Install reflector:
+### Install Reflector
+
 Note that reflector has two dependencies (rsync and curl) which should be installed by default in Arch, but to be safe we specify them:
 
-	sudo pacman -S reflector rsync curl
-
+    sudo pacman -S reflector rsync curl
 
 ### Backup your local mirrorlist
 
-	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+    sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
-### Create the new mirrolist
+### Create New Mirrorlist
+
 Note: If you are in a different country change "United States" to your country.
 
-	sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+    sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
 ---
 
 ## Install Arch Linux
-Yay! 
 
-	pacstrap -i /mnt base base-devel
+Finally!
+
+    pacstrap -i /mnt base base-devel
 
 ---
 
+### Generate fstab
 
-### Configure fstab
-We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints. You won't be able to boot without it. To update it run:
-
-
-	genfstab -U -p /mnt >> /mnt/etc/fstab
+We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints.
+    genfstab -U -p /mnt >> /mnt/etc/fstab
 
 You can verify fstab with:
 
-	cat /mnt/etc/fstab
-
+    cat /mnt/etc/fstab
 
 __TO INVESTIGAGE!!!__ When we generated the fstab did it add our swap to it?
 
@@ -206,82 +203,110 @@ __TO INVESTIGAGE!!!__ When we generated the fstab did it add our swap to it?
 
 ---
 
-## Change to your root directory
-Since we're still booted on the USB drive, in order to configure our new system we need to change root:
+## Change Root
 
-	arch-chroot /mnt
+Since we're still booted via USB, in order to configure our new system we need to change root. If we don't do that, every change we make will be applied to the USB installation.
+
+    arch-chroot /mnt
 
 ---
 
 ## Install and configure bootloader
+
 While there are various bootloaders that may be used, since the Linux kernel has a built-in EFI image, all we need is a way to execute it. For that we will install systemd-boot, a minimalist boot manager:
 
-	bootctl --path=/boot install
+    bootctl --path=/boot install
 
 ### Update the loader.conf file
+
 Using nano we can edit the config file:
 
-	nano /boot/loader/loader.conf
+    nano /boot/loader/loader.conf
 
-Make sure that only the following lines are in the file:
+Make sure that __only__ the following lines are in the file:
 
-	default arch
-	timeout 3
-	editor 0
+    default arch
+    timeout 3
+    editor 0
 
-__Notes:__ The timeout setting is the number of seconds the menu is displayed. The editor setting determines whether the kernel parameters editor is accessible. For security reasons we disable this.
-
+__Notes:__ The timeout setting is the number of seconds the menu is displayed. The editor setting determines whether the kernel parameters are editable. For security reasons we disable this.
 
 ### Get the UUID for root
+
 In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. In order to get the UUID you first need to know what device node root is on. Look it up using:
 
-	fdisk -l
+    fdisk -l
 
 The device node will be something like
 
-	/dev/sda2
+    /dev/sda2
 
 You can now get the UUID that corrisponds to the root node you just looked up using:
 
-	ls -l /dev/disk/by-partuuid/
+    blkid /dev/sda2
 
-Or alternately you can look it with:
+You can either write down the UUID (which could be painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
 
-	blkid -s PARTUUID -o value /dev/sda2
+    blkid /dev/sda2 > /boot/loader/entries/arch.conf
 
+Then open the config file in nano:
 
-### Update the arch.conf file
-Armed with the UUID we just gathered in the previous step we can now insert it into the arch config file. Open the file using:
+    nano /boot/loader/entries/arch.conf
 
-	nano /boot/loader/entries/arch.conf
+Arrow over to the UUID corresponding to your root partition and shift/arrow to highlight it. Use Ctl+K to cut the line. It will remain in the clipboard for use next.
 
-And add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously, and if your root drive is formatted with something other than ext4 update that info as well.
+Now delete everything in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously (which you can paste from your clipboard using Ctrl+U).
 
+    title   Arch Linux
+    linux   /vmlinuz-linux
+    initrd  /initramfs-linux.img
+    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
 
-	title   Arch Linux
-	linux   /vmlinuz-linux
-	initrd  /initramfs-linux.img
-	options root=PARTUUID=YOUR-UUID rootfstype=ext4 add_efi_memmap
+### Update the bootloader
 
-	### Update the bootloader
-
-		bootctl update
+    bootctl update
 
 ---
 
-### Add NVMe to mkinitcpio
+## Update mkinitcpio
+
+Since we're using disk encryption we need to make sure that it gets initialized by the kernel so we can decrypt our drive prior to booting. We also need to make sure that the keyboard is available for use prior to initializing the filesystem, otherwise we will have no input device to type in our password.
+
+Edit the following config file:
+
+    nano /etc/mkintcpio.conf
+
+Scroll down to the hooks section. It should look similar to this:
+
+    HOOKS="base udev autodetect modconf block filesystems keyboard fsck"
+
+Change it to this:
+
+    HOOKS="base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck"
+
+Now update the initramfs image with our hooks change:
+
+    mkinitcpio -p linux
+
+If you're curious what modules are available as intcpio hooks:
+
+    ls /usr/lib/initcpio/install
+
+## Add NVMe to mkinitcpio
 
 This step is only necessary if your computer is running PCIe storage rather than SATA. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it. This is done by updating the MODULES variable in mkinitcpio (which is responsible for creating the initial ramdisk).
 
-	nano /etc/nkintcpio.conf
+Edit the following config file:
+
+    nano /etc/mkintcpio.conf
 
 Add __nvme__ to the MODULES variable:
 
-	MODULES="nvme"
+    MODULES="nvme"
 
 Now update the initramfs image with our module change:
 
-	mkinitcpio -p linux
+    mkinitcpio -p linux
 
 ---
 
@@ -289,19 +314,19 @@ Now update the initramfs image with our module change:
 
 Open the locale.gen file and uncomment your preferred language (I'm using en_US.UTF-8):
 
-	nano /etc/local.gen
+    nano /etc/local.gen
 
 Now save the file and generate the locale:
 
-	locale-gen
+    locale-gen
 
 Add your language choice to the locale.conf file:
 
-	echo LANG=en_US.UTF-8 > /etc/locale.conf
+    echo LANG=en_US.UTF-8 > /etc/locale.conf
 
 Export the language as an environmental shell variable:
 
-	export LANG=en_US.UTF-8
+    export LANG=en_US.UTF-8
 
 ---
 
@@ -309,54 +334,55 @@ Export the language as an environmental shell variable:
 
 Invoke this command to be prompted to find your timezone:
 
-	tzselect
+    tzselect
 
 Now, use the provided TZ to create a symbolic link to /etc/localtime:
 
-	ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
+    ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
 Update the hardware clock:
 
-	hwclock --systohc --utc
+    hwclock --systohc --utc
 
 ---
 
 ## Set hostname
+
 This is the name of your computer. Note: Change "arch" to whatever you want your host to be.
-	
-	echo arch > /etc/hostname
+
+    echo arch > /etc/hostname
 
 ---
 
-## Set root password:
+## Set root password
 
-	passwd
+    passwd
 
 ---
 
-## Create the user account:
+## Create the user account
 
-	useradd -m -G wheel,users -s /bin/bash <username>
+    useradd -m -G wheel,users -s /bin/bash <username>
 
 ### Set password for user
 
-	passwd <username>
-
+    passwd <username>
 
 ---
 
 ## Grant user sudo powers
+
 Install sudo:
 
-	pacman -S sudo
+    pacman -S sudo
 
 Then run the following command, which will open the sudoers file:
 
-	EDITOR=nano visudo
+    EDITOR=nano visudo
 
 Find this line and uncomment:
 
-	%wheel ALL=(ALL) ALL
+    %wheel ALL=(ALL) ALL
 
 ---
 
@@ -364,40 +390,43 @@ Find this line and uncomment:
 
 First we need to edit the pacman.conf file:
 
-	nano /etc/pacman.conf
+    nano /etc/pacman.conf
 
 Uncomment the following lines:
 
-	[multilib]
-	Include = /etc/pacman.d/mirrorlist
+    [multilib]
+    Include = /etc/pacman.d/mirrorlist
 
 Then add these lines for yaourt:
 
-	[archlinuxfr]
-	SigLevel = Never
-	Server = http://repo.archlinux.fr/$arch
+    [archlinuxfr]
+    SigLevel = Never
+    Server = http://repo.archlinux.fr/$arch
 
 Save the file and exit.
 
-### Refresh the package databases:
+### Refresh the package databases
 
-	pacman -Syy
+    pacman -Syy
 
 ### Install Yaourt
 
-	sudo pacman -S yaourt
+    sudo pacman -S yaourt
 
 ---
 
 ## Update all packages
-The installation is basically done so we now update all isntalled packages:
 
-	pacman -Syu
+The installation is basically done so we now update all installed packages:
+
+    pacman -Syu
 
 ---
 
-## Cross your fingers and reboot
-We should now have a working Arch Linux installation. It doesn't have a desktop environtment or any applications yet, but the base installation is done. Run the reboot command and remove the USB drive:
+## Reboot
 
-	reboot
+You should now have a working Arch Linux installation. It doesn't have a desktop environtment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
 
+    unmount -R /mnt
+
+    reboot
