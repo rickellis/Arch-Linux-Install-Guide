@@ -99,9 +99,7 @@ Or if you're paranoid you can use a multi-pass tool like shred.
 ### Partition the drive
 There are a number of tools available on Arch. This is how to do it using parted.
 
-__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live._
-
-To launch parted on a particular drive node use:
+__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live._ To launch parted on a particular drive node use:
 
 	parted /dev/sd*
 
@@ -116,9 +114,7 @@ Then run the following commands:
 
 ### Create a physical volume on the root partition
 	pvcreate /dev/sda2
-
-### Create a volume group
-I usually name mine "lvm". If you use something else you'll need to replace it in the next three steps.
+__NOTE:__ I usually name mine __lvm__. If you use something else you'll need to replace it in the next three steps.
 
 	vgcreate lvm /dev/sda2
 
