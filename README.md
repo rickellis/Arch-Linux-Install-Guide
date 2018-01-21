@@ -6,7 +6,7 @@ These are the steps necessary to install [Arch Linux](https://www.archlinux.org/
 
 ## Prepare Installation Media
 
-[Download](https://www.archlinux.org/download/)the ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
+[Download](https://www.archlinux.org/download/) the ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
     sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
