@@ -291,6 +291,105 @@ Add your language choice to the locale.conf file:
 
 	echo LANG=en_US.UTF-8 > /etc/locale.conf
 
-Lastly, export the language as an environmental shell variable:
+Export the language as an environmental shell variable:
 
 	export LANG=en_US.UTF-8
+
+---
+
+## Set Timezone
+
+Invoke this command to be prompted to find your timezone:
+
+	tzselect
+
+Now, use the provided TZ to create a symbolic link to /etc/localtime:
+
+	ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
+
+Update the hardware clock:
+
+	hwclock --systohc --utc
+
+---
+
+## Set hostname
+This is the name of your computer. Note: Change "arch" to whatever you want your host to be.
+	
+	echo arch > /etc/hostname
+
+---
+
+## Set root password:
+
+	passwd
+
+---
+
+## Create the user account:
+
+	useradd -m -G wheel,users -s /bin/bash <username>
+
+### Set password for user
+
+	passwd <username>
+
+
+---
+
+## Grant user sudo powers
+Install sudo:
+
+	pacman -S sudo
+
+Then run the following command, which will open the sudoers file:
+
+	EDITOR=nano visudo
+
+Find this line and uncomment:
+
+	%wheel ALL=(ALL) ALL
+
+---
+
+## Enable multilib repositories and Yaourt
+
+First we need to edit the pacman.conf file:
+
+	nano /etc/pacman.conf
+
+Uncomment the following lines:
+
+	[multilib]
+	Include = /etc/pacman.d/mirrorlist
+
+Then add these lines for yaourt:
+
+	[archlinuxfr]
+	SigLevel = Never
+	Server = http://repo.archlinux.fr/$arch
+
+Save the file and exit.
+
+### Refresh the package databases:
+
+	pacman -Syy
+
+### Install Yaourt
+
+	sudo pacman -S yaourt
+
+---
+
+## Update all packages
+The installation is basically done so we now update all isntalled packages:
+
+	pacman -Syu
+
+---
+
+## Cross your fingers and reboot
+We should now have a working Arch Linux installation. It doesn't have a desktop environtment or any applications yet, but the base installation is done. Run the reboot command and remove the USB drive:
+
+	reboot
+
