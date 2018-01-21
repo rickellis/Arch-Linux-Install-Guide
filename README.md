@@ -35,9 +35,9 @@ Make sure UEFI is on. Most modern systems use UEFI, so it's generally on by defa
 
 If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use BitLocker disk encryption on the partition containing Windows, as it requires secure boot.
 
-### Disable Fast Start
+### Disable Fast Startup Mode
 
-If you are dual booting with Windows turn off Fast Start. Fast Start puts Windows into hibernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various problems.
+If you are dual booting with Windows turn off Fast Startup. This feature puts Windows into hibernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various nasty problems.
 
 
 ---
@@ -242,10 +242,10 @@ Armed with the UUID we just gathered in the previous step we can now insert it i
 
 	nano /boot/loader/entries/arch.conf
 
-And add the following info. Make sure to replace __YOUR UUID__ in the last line with the ID gathered previously, and if your root drive is formatted with something other than ext4 update that info as well in line 4.
+And add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously, and if your root drive is formatted with something other than ext4 update that info as well.
 
 
 	title   Arch Linux
 	linux   /vmlinuz-linux
 	initrd  /initramfs-linux.img
-	options root=PARTUUID=YOUR UUID rootfstype=ext4 add_efi_memmap
+	options root=PARTUUID=YOUR-UUID rootfstype=ext4 add_efi_memmap
