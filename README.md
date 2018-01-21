@@ -97,7 +97,9 @@ Before we setup our LVM we need to encrypt the root partition we just created.
 
     cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
-Now let's decrypt it so we can use it. __Note__: I'm labeling this partition as "lvm". We will use this label later when we create the LVM.
+Now let's decrypt it so we can use it.
+
+__Note__: I'm labeling this partition as "lvm". We will use this label later when we create the LVM.
 
     cryptsetup open --type luks /dev/sd* lvm
 
@@ -191,13 +193,14 @@ Finally!
 ### Generate fstab
 
 We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints.
+
     genfstab -U -p /mnt >> /mnt/etc/fstab
 
 You can verify fstab with:
 
     cat /mnt/etc/fstab
 
-__TO INVESTIGAGE!!!__ When we generated the fstab did it add our swap to it?
+__TO INVESTIGATE!!!__ When we generated the fstab did it add our swap to it?
 
     /dev/mapper/vg-swap swap swap defaults 0 0
 
@@ -241,7 +244,7 @@ The device node will be something like
 
     /dev/sda2
 
-You can now get the UUID that corrisponds to the root node you just looked up using:
+You can now get the UUID that corresponds to the root node you just looked up using:
 
     blkid /dev/sda2
 
@@ -253,7 +256,7 @@ Then open the config file in nano:
 
     nano /boot/loader/entries/arch.conf
 
-Arrow over to the UUID corresponding to your root partition and shift/arrow to highlight it. Use Ctl+K to cut the line. It will remain in the clipboard for use next.
+Arrow over to the UUID and shift/arrow to highlight it. Use Ctl+K to cut the line. It will remain in the clipboard for use next.
 
 Now delete everything in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously (which you can paste from your clipboard using Ctrl+U).
 
