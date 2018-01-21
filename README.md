@@ -154,15 +154,15 @@ The sizes below can be specified in megabytes (100M) or gigs (10G)
 ---
 
 ## Update mirrorlist
-By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the default server list, to ensure the best possible download speeds it is recommended that you update the mirrorlist with servers from your country. To do that you use an application called reflector.
+By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that you use an application called reflector.
 
 ### Install reflector:
-Note that reflector has two dependencies which should be installed by default in Arch, but to be safe we specify them:
+Note that reflector has two dependencies (rsync and curl) which should be installed by default in Arch, but to be safe we specify them:
 
 	sudo pacman -S reflector rsync curl
 
 
-### Backup ysour local mirrorlist
+### Backup your local mirrorlist
 
 	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.baks
 
@@ -174,6 +174,7 @@ Note: If you are in a different country change "United States" to your country.
 ---
 
 ## Install Arch Linux
+Yay! 
 
 	pacstrap -i /mnt base base-devel
 
@@ -181,7 +182,7 @@ Note: If you are in a different country change "United States" to your country.
 
 
 ### Configure fstab
-We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints. You won't be able to boot without it. To update it, run:
+We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints. You won't be able to boot without it. To update it run:
 
 
 	genfstab -U -p /mnt >> /mnt/etc/fstab
@@ -219,7 +220,7 @@ __Notes:__ The timeout setting is the number of seconds the menu is displayed. T
 
 
 ### Get the UUID for root
-First we need to determine the UUID of our root partition. In order to get the UUID you first need to know what device node root is on. Look it up using:
+In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. In order to get the UUID you first need to know what device node root is on. Look it up using:
 
 	fdisk -l
 
