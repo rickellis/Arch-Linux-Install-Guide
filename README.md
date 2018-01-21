@@ -205,7 +205,7 @@ While there are various bootloaders that may be used, since the Linux kernel has
 
 	bootctl --path=/boot install
 
-### Configure the loader.conf file
+### Update the loader.conf file
 Using nano we can edit the config file:
 
 	nano /boot/loader/loader.conf
@@ -237,7 +237,7 @@ Or alternately you can look it with:
 	blkid -s PARTUUID -o value /dev/sda2
 
 
-### Configure the arch.conf file
+### Update the arch.conf file
 Armed with the UUID we just gathered in the previous step we can now insert it into the arch config file. Open the file using:
 
 	nano /boot/loader/entries/arch.conf
