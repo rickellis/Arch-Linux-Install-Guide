@@ -18,145 +18,146 @@ If you prefer a graphical interface, I've heard good things about [Etcher](https
 
 Hold F12 (or whatever key is used on your system) during startup to access bios. Then...
 
-### Turn UEFI on
+* __Turn UEFI On.__ Most modern systems use UEFI, so it's generally on by default.
 
-Make sure UEFI is on. Most modern systems use UEFI, so it's generally on by default.
+* __Disable Secure Boot.__ If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use BitLocker disk encryption on the partition containing Windows, as it requires secure boot.
 
-### Disable Secure Boot
-
-If secure boot is enabled it must be turned off since Linux boot loaders don't typically have digital signatures. Note that if you intend on running a dual-boot system with Windows and Linux you won't be able to use BitLocker disk encryption on the partition containing Windows, as it requires secure boot.
-
-### Disable Fast Startup Mode
-
-If you are dual booting with Windows turn off Fast Startup. This feature puts Windows into hibernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various nasty problems.
-
+* __Disable Fast Startup Mode.__ If you are dual booting with Windows turn off Fast Startup. This feature puts Windows into hibernation when you power off. Because some systems are still active during hibernation, booting into Linux can cause various nasty problems.
 
 ---
 
-### Boot Arch Linux from the USB drive
+## Boot Arch from the USB Drive
+
 Hold F12 (or whatever key is used on your system) during startup to access startup menu. Select the USB drive and boot into Arch.
 
 ---
 
-### Establish an internet connection
+## Establish an Internet Connection
+
 The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. However, you can usually get WiFi working by running:
 
-	wifi-menu
+    wifi-menu
 
 To test your connection:
-	
-	ping -c 3 www.google.com
 
+    ping -c 3 www.google.com
 
 ---
 
-## Drive setup
+## Hard Drive Preparation
 
-__IMPORTANT:__ Make sure you change the device nodes in all of the examples to your particular nodes. For example, in this document I might use:
+To view your disc information:
 
-	/dev/sd*
+    fdisk -l
 
-But on my Dell XPS, since it uses PCIe storage, an actual node would be called:
+### Delete Existing Disk Partitions
 
-	/dev/nvme0n1p1
+This step is only necessary if you are using a drive with existing partitions. If you are installing onto a drive with unallocated space, skip this step. 
 
+To remove partitions you can use parted:
 
-### To view your disc information:
+    parted -s /dev/sd* rm 1
+    parted -s /dev/sd* rm 2
+    parted -s /dev/sd* rm 3
+    etc.
 
-	fdisk -l
+### Zero Hard Drive with Random Data
 
+Optional step if you are using a previously used drive. Here's how to do it using dd:
 
-### Delete existing disk partitions
-This step is only necessary if you are using a drive with existing partitions. If you are installing onto a drive with unallocated space, skip this step. To remove partitions you can use parted:
-
-	parted -s /dev/sd* rm 1
-	parted -s /dev/sd* rm 2
-	parted -s /dev/sd* rm 3
-	etc.
-
-
-### Zero the hard drive with random data
-
-Not really necessary, but I like knowing that I'm using a drive with no data. Here's how to do it using dd:
-
-	dd if=/dev/urandom of=/dev/sd* status=progress
+    dd if=/dev/urandom of=/dev/sd* status=progress
 
 Or if you're paranoid you can use a multi-pass tool like shred.
 
-	shred -vfz -n 5 /dev/sd*
+    shred -vfz -n 5 /dev/sd*
 
+---
 
+## Partition Hard Drive
 
-### Partition the drive
-There are a number of tools available to acomplish this. This is how to do it using parted.
+__NOTE:__ Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live.
 
-__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live._ To launch parted on a particular drive node use:
+First, launch __parted__ on your desired drive node;
 
     parted /dev/sd*
 
-Then run the following commands:
+Then run the following commands with your particular values:
 
     (parted) mklabel gpt
-	(parted) mkpart primary 1MiB 512MiB name 1 boot
-	(parted) set 1 boot on
-	(parted) mkpart primary 512MiB 100% name 2 root
-	(parted) quit
-
+    (parted) mkpart primary 1MiB 512MiB name 1 boot
+    (parted) set 1 boot on
+    (parted) mkpart primary 512MiB 100% name 2 root
+    (parted) quit
 
 ---
 
 ## Disk Encryption
-Before we setup our LVM we need to encrypt the root partition we just 
 
+Before we setup our LVM we need to encrypt the root partition we just created.
 
-### Encrypt the root partition 
+    cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
-	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/lvm-root
+Now let's decrypt it so we can use it. __Note__: I'm labeling this partition as "lvm". We will use this label later when we create the LVM.
 
+    cryptsetup open --type luks /dev/sd* lvm
 
-### Decrypt the newly encrypted partition
-	cryptsetup open /dev/mapper/lvm-root root
+To verify our "lvm" label we can use:
 
+    ls /dev/mapper/lvm
 
 ---
 
+## LVM Setup
 
+### Create Physical Volume
 
-### Create a physical volume on the root partition
-	pvcreate /dev/sd*
+    pvcreate /dev/mapper/lvm
 
+### Create Volume Group
 
-### Create a volume group
+__Note:__ I'm labelling my volume group as "vg".
 
-__NOTE:__ I usually name the volume group __lvm__. If you use something else you'll need to replace it in the next three steps.
+    vgcreate vg /dev/mapper/lvm
 
-	vgcreate lvm /dev/sd*
+### Create Logical Volumes
 
-### Create logical volumes for swap and root
+At minimum we need two volumes. One for swap, the other for root. We can additionally put home on its own volume.
 
-__NOTE:__ I typically only use two volumes (swap and root) rather than 3 (swap, root, and home) so I can encrypt the entire root volume with my home directory in it. If you prefer three volumes then you'll need to adjust all the disc operations that follow. And you'll also likely encrypt your home folder rather than root.
+__Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G). 
 
-__ALSO:__ _The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM (ie, 8GB RAM = 12GB swap) if you typically run multiple RAM intensive processes simultaneously. The average user won't need much swap._
+__Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercalse l lets you specify percentages.
 
-The sizes below can be specified in megabytes (100M) or gigs (10G)
+    lvcreate -L 4G vg -n swap
+    lvcreate -L 20G vg -n root
+    lvcreate -l 100%FREE vg -n home
 
-	lvcreate -n swap -L 500M lvm
-	lvcreate -n root -l 100%FREE lvm
+### Create Filesystems
 
+__Note:__ We also format the boot partition, which is on our non-LVM partition.
 
+    mkfs.vfat -F32 /dev/sd*
+    mkfs.ext4 /dev/mapper/vg-root
+    mkfs.ext4 /dev/mapper/vg-home
 
-### Create filesystems on the two partitions
+### Create swap
 
-	mkfs.vfat -F32 /dev/sda1
-	mkfs.ext4 /dev/mapper/root
+    mkswap /dev/mapper/vg-swap
 
+### Enable Swap
+
+    swapon -s /dev/mapper/vg-swap
 
 ### Mount the volumes
 
-	mount /dev/mapper/root /mnt
+We need to create a couple directories while we're at it.
 
-	mkdir /mnt/boot
-	mount /dev/sda1 /mnt/boot
+    mount /dev/mapper/vg-root /mnt
+
+    mkdir /mnt/home
+    mount /dev/mapper/vg-home /mnt/home
+
+    mkdir /mnt/boot
+    mount /dev/sda1 /mnt/boot
 
 ---
 
@@ -197,6 +198,11 @@ We now need to update the filesystem table on the new installation. Fstab contai
 You can verify fstab with:
 
 	cat /mnt/etc/fstab
+
+
+__TO INVESTIGAGE!!!__ When we generated the fstab did it add our swap to it?
+
+    /dev/mapper/vg-swap swap swap defaults 0 0
 
 ---
 
