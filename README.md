@@ -90,18 +90,23 @@ Not really necessary, but I like knowing that I'm using a drive with no data. He
 
 	dd if=/dev/urandom of=/dev/sd* status=progress
 
-Or if you're paranoid you can use a multi-pass tool like shred;
+Or if you're paranoid you can use a multi-pass tool like shred.
 
 	shred -vfz -n 5 /dev/sd*
 
 
 
 ### Partition the drive
-There are a number of tools available on Arch by default. This is how to do it using parted.
+There are a number of tools available on Arch. This is how to do it using parted.
 
-__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition (If you're dual booting with Windows then you will already have a boot partition that can be shared with your Linux installation, so you can skip creating it), the second is the root partition where our LVM will live._
+__NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live._
+
+To launch parted on a particular drive node use:
 
 	parted /dev/sd*
+
+Then run the following commands:
+
 	(parted) mklabel gpt
 	(parted) mkpart primary 1MiB 512MiB name 1 boot
 	(parted) set 1 boot on
@@ -113,9 +118,9 @@ __NOTE:__ _Since we're using LVM we only need two drive partitions. The first is
 	pvcreate /dev/sda2
 
 ### Create a volume group
-I usually name mine "arch". If you use something else you'll need to replace it in the next three steps.
+I usually name mine "lvm". If you use something else you'll need to replace it in the next three steps.
 
-	vgcreate arch /dev/sda2
+	vgcreate lvm /dev/sda2
 
 ### Create logical volumes for swap and root
 
@@ -125,17 +130,17 @@ __ALSO:__ _The amount of swap space is a function of how much ram you have. The 
 
 The sizes below can be specified in megabytes (100M) or gigs (10G)
 
-	lvcreate -n swap -L 500M arch
-	lvcreate -n root -l 100%FREE arch
+	lvcreate -n swap -L 500M lvm
+	lvcreate -n root -l 100%FREE lvm
 
 
 ### Encrypt the root partition 
 
-	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/arch-root
+	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/lvm-root
 
 
 ### Decrypt the newly encrypted partition
-	cryptsetup open /dev/mapper/arch-root root
+	cryptsetup open /dev/mapper/lvm-root root
 
 
 ### Create filesystems on the two partitions
