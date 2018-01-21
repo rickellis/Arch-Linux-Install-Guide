@@ -242,10 +242,10 @@ Armed with the UUID we just gathered in the previous step we can now insert it i
 
 	nano /boot/loader/entries/arch.conf
 
-And add the following info. Make sure to replace __YOUR UUID__ with the ID gathered previously, and if your root drive is formatted with something other than ext4 update that info as well.
+And add the following info. Make sure to replace __YOUR UUID__ in the last line with the ID gathered previously, and if your root drive is formatted with something other than ext4 update that info as well in line 4.
 
 
 	title   Arch Linux
 	linux   /vmlinuz-linux
 	initrd  /initramfs-linux.img
-	options root=PARTUUID=__YOUR UUID__ rootfstype=__ext4__ add_efi_memmap
+	options root=PARTUUID=YOUR UUID rootfstype=ext4 add_efi_memmap
