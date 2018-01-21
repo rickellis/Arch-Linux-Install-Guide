@@ -1,23 +1,16 @@
 # Arch Linux Installation Guide
 
-#### These are the steps necessary to install <a href="https://www.archlinux.org/">Arch Linux</a> with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> disk encryption using <a href="https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)">Logical Volume Manager</a> booting with <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>.
+These are the steps necessary to install [Arch Linux](https://www.archlinux.org/) with [LUKS](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup) disk encryption using [Logical Volume Manager](https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)) booting with [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface).
 
 ---
 
-### Before you begin, plan your disc partitioning strategy
-I typically run Linux on a dual-boot system with Windows. I've also run triple boot systems, with Windows and two different Linux distros. In either case I'll generally install Windows first, then reduce the size of the partition, freeing up enough unallocated space for Linux.
+## Prepare Installation Media
 
-If you are installing Linux on a dedicated drive then all you will need to do is remove the existing partitions, which can be done once you've booted from the installation media. The process is described in the drive setup section below.
+[Download](https://www.archlinux.org/download/)the ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
----
+    sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
-
-### <a href="https://www.archlinux.org/download/">Download</a> the ISO and create a bootable USB thumb drive
-The simplest way to create a bootable USB on Linux is using the dd command:
-
-	sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
-
-If you prefer a graphical interface, I've heard good things about <a href="https://etcher.io/">Etcher</a> and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
+If you prefer a graphical interface, I've heard good things about [Etcher](https://etcher.io/) and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
 
 ---
 
@@ -95,19 +88,38 @@ Or if you're paranoid you can use a multi-pass tool like shred.
 
 
 ### Partition the drive
-There are a number of tools available on Arch. This is how to do it using parted.
+There are a number of tools available to acomplish this. This is how to do it using parted.
 
 __NOTE:__ _Since we're using LVM we only need two drive partitions. The first is a boot partition, the second is the root partition where our LVM will live._ To launch parted on a particular drive node use:
 
-	parted /dev/sd*
+    parted /dev/sd*
 
 Then run the following commands:
 
-	(parted) mklabel gpt
+    (parted) mklabel gpt
 	(parted) mkpart primary 1MiB 512MiB name 1 boot
 	(parted) set 1 boot on
 	(parted) mkpart primary 512MiB 100% name 2 root
 	(parted) quit
+
+
+---
+
+## Disk Encryption
+Before we setup our LVM we need to encrypt the root partition we just 
+
+
+### Encrypt the root partition 
+
+	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/lvm-root
+
+
+### Decrypt the newly encrypted partition
+	cryptsetup open /dev/mapper/lvm-root root
+
+
+---
+
 
 
 ### Create a physical volume on the root partition
@@ -131,14 +143,6 @@ The sizes below can be specified in megabytes (100M) or gigs (10G)
 	lvcreate -n swap -L 500M lvm
 	lvcreate -n root -l 100%FREE lvm
 
-
-### Encrypt the root partition 
-
-	cryptsetup luksFormat -v -s 512 -h sha512 /dev/mapper/lvm-root
-
-
-### Decrypt the newly encrypted partition
-	cryptsetup open /dev/mapper/lvm-root root
 
 
 ### Create filesystems on the two partitions
