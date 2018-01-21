@@ -65,7 +65,7 @@ __IMPORTANT:__ Make sure you change the device nodes in all of the examples to y
 
 	/dev/sd*
 
-But on my Dell XPS the actual node might be called:
+But on my Dell XPS, since it uses PCIe storage, an actual node would be called:
 
 	/dev/nvme0n1p1
 
@@ -124,7 +124,7 @@ __NOTE:__ I usually name the volume group __lvm__. If you use something else you
 
 ### Create logical volumes for swap and root
 
-__NOTE:__ I typically only use two volumes (swap and root) rather than 3 (swap, root, and home) so I can encrypt the entire root volume with my home directory in it. If you prefer three volumes then you'll need to adjust all the disc operations that follow.
+__NOTE:__ I typically only use two volumes (swap and root) rather than 3 (swap, root, and home) so I can encrypt the entire root volume with my home directory in it. If you prefer three volumes then you'll need to adjust all the disc operations that follow. And you'll also likely encrypt your home folder rather than root.
 
 __ALSO:__ _The amount of swap space is a function of how much ram you have. The minimum, assuming you have at least 8GB of RAM, should be 4GB, up to 1.5 times RAM (ie, 8GB RAM = 12GB swap) if you typically run multiple RAM intensive processes simultaneously. The average user won't need much swap._
 
@@ -169,9 +169,9 @@ Note that reflector has two dependencies (rsync and curl) which should be instal
 
 ### Backup your local mirrorlist
 
-	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.baks
+	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
-### Install the new mirrolist
+### Create the new mirrolist
 Note: If you are in a different country change "United States" to your country.
 
 	sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
@@ -199,7 +199,7 @@ You can verify fstab with:
 ---
 
 ## Change to your root directory
-In order to configure our new system we need to change root:
+Since we're still booted on the USB drive, in order to configure our new system we need to change root:
 
 	arch-chroot /mnt
 
@@ -254,3 +254,43 @@ And add the following info. Make sure to replace __YOUR-UUID__ with the ID gathe
 	linux   /vmlinuz-linux
 	initrd  /initramfs-linux.img
 	options root=PARTUUID=YOUR-UUID rootfstype=ext4 add_efi_memmap
+
+	### Update the bootloader
+
+		bootctl update
+
+---
+
+### Add NVMe to mkinitcpio
+
+This step is only necessary if your computer is running PCIe storage rather than SATA. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it. This is done by updating the MODULES variable in mkinitcpio (which is responsible for creating the initial ramdisk).
+
+	nano /etc/nkintcpio.conf
+
+Add __nvme__ to the MODULES variable:
+
+	MODULES="nvme"
+
+Now update the initramfs image with our module change:
+
+	mkinitcpio -p linux
+
+---
+
+## Set language
+
+Open the locale.gen file and uncomment your preferred language (I'm using en_US.UTF-8):
+
+	nano /etc/local.gen
+
+Now save the file and generate the locale:
+
+	locale-gen
+
+Add your language choice to the locale.conf file:
+
+	echo LANG=en_US.UTF-8 > /etc/locale.conf
+
+Lastly, export the language as an environmental shell variable:
+
+	export LANG=en_US.UTF-8
