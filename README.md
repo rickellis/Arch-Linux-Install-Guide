@@ -113,14 +113,14 @@ Then run the following commands:
 
 
 ### Create a physical volume on the root partition
-	pvcreate /dev/sda2
+	pvcreate /dev/sd*
 
 
 ### Create a volume group
 
 __NOTE:__ I usually name the volume group __lvm__. If you use something else you'll need to replace it in the next three steps.
 
-	vgcreate lvm /dev/sda2
+	vgcreate lvm /dev/sd*
 
 ### Create logical volumes for swap and root
 
