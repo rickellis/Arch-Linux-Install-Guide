@@ -36,7 +36,7 @@ Hold F12 (or whatever key is used on your system) during startup to access bios.
 
 Hold F12 (or whatever key is used on your system) during startup to access startup menu. Select the USB drive and boot into Arch.
 
----
+----
 
 ## Establish an Internet Connection
 
