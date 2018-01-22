@@ -70,7 +70,7 @@ First, launch __parted__ on your desired drive node;
 
     #   parted /dev/sd*
 
-Then run the following commands with your particular values:
+Then run the following commands with your particular size values:
 
     #   (parted) mklabel gpt
     #   (parted) mkpart primary 1MiB 512MiB name 1 boot
@@ -82,7 +82,7 @@ Then run the following commands with your particular values:
 
 ## Disk Encryption
 
-Before we setup our LVM we need to encrypt the root partition we just created.
+Before we setup our LVM we need to encrypt the root partition we just created. For more information about LUKS [go here](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption)
 
     #   cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
@@ -100,17 +100,17 @@ To verify our "lvm" label we can use:
 
 ## LVM Setup
 
-### Create Physical Volume
+### Create a Physical Volume
 
     #   pvcreate /dev/mapper/lvm
 
-### Create Volume Group
+### Create a Volume Group
 
-__Note:__ I'm labelling my volume group as "vg".
+__Note:__ I'm labelling my volume group as "vg". If you use something else, make sure to replace every instance of it, not only in this section, but in the bootloader config section much later.
 
     #   vgcreate vg /dev/mapper/lvm
 
-### Create Logical Volumes
+### Create the Logical Volumes
 
 At minimum we need two volumes. One for swap, the other for root. We can additionally put home on its own volume.
 
@@ -151,7 +151,7 @@ We need to create a couple directories while we're at it.
 
 ## Update mirrorlist
 
-By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that you use an application called reflector.
+By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that we use reflector.
 
 ### Install Reflector
 
@@ -205,7 +205,7 @@ Since we're still booted via USB, in order to configure our new system we need t
 
 ## Install and configure bootloader
 
-While there are various bootloaders that may be used, since the Linux kernel has a built-in EFI image, all we need is a way to execute it. For that we will install systemd-boot, a minimalist boot manager:
+While there are various bootloaders that may be used, since the Linux kernel has a built-in EFI image, all we need is a way to execute it. For that we will install systemd-boot:
 
     #   bootctl --path=/boot install
 
@@ -237,7 +237,7 @@ You can now get the UUID that corresponds to the root node you just looked up us
 
     #   blkid /dev/sda2
 
-You can either write down the UUID (which could be painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
+You can either write down the UUID (which is painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
 
     #   blkid /dev/sda2 > /boot/loader/entries/arch.conf
 
@@ -247,7 +247,7 @@ Then open the config file in nano:
 
 Arrow over to the UUID and shift/arrow to highlight it. Use Ctl+K to cut the line. It will remain in the clipboard for use next.
 
-Now delete everything in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously (which you can paste from your clipboard using Ctrl+U).
+Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously (which you can paste from your clipboard using Ctrl+U).
 
     title   Arch Linux
     linux   /vmlinuz-linux
@@ -268,7 +268,7 @@ Edit the following config file:
 
     #   nano /etc/mkintcpio.conf
 
-Scroll down to the hooks section. It should look similar to this:
+Scroll down to the HOOKS section. It should look similar to this:
 
     HOOKS="base udev autodetect modconf block filesystems keyboard fsck"
 
@@ -286,7 +286,7 @@ If you're curious what modules are available as intcpio hooks:
 
 ## Add NVMe to mkinitcpio
 
-This step is only necessary if your computer is running PCIe storage rather than SATA. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it. This is done by updating the MODULES variable in mkinitcpio (which is responsible for creating the initial ramdisk).
+This step is only necessary if your computer is running PCIe storage rather than SATA. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it. This is done by updating the MODULES variable in mkinitcpio which we added HOOKS to previously.
 
 Edit the following config file:
 
@@ -324,15 +324,15 @@ Export the language as an environmental shell variable:
 
 ## Set Timezone
 
-Invoke this command to be prompted to find your timezone:
+Run this command to find your timezone:
 
     #   tzselect
 
-Now, use the provided TZ to create a symbolic link to /etc/localtime:
+Now, use the timezone you just looked up to create a symbolic link to /etc/localtime:
 
     #   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
-Update the hardware clock:
+Update the hardware clock. I use UTC:
 
     #   hwclock --systohc --utc
 
@@ -352,7 +352,7 @@ This is the name of your computer. Note: Change "arch" to whatever you want your
 
 ---
 
-## Create User Account
+## Create a User Account
 
     #   useradd -m -G wheel,users -s /bin/bash <username>
 
