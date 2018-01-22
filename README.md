@@ -127,7 +127,7 @@ At minimum we need two volumes. One for swap, the other for root. We can additio
 
 __Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G).
 
-__Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercalse l lets you specify percentages.
+__Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercase l lets you specify percentages.
 
     lvcreate -L 4G vg -n swap
     lvcreate -L 20G vg -n root
@@ -192,7 +192,7 @@ Finally!
 
 ### Generate fstab
 
-We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints.
+We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mount-points.
 
     genfstab -U -p /mnt >> /mnt/etc/fstab
 
@@ -428,7 +428,7 @@ The installation is basically done so we now update all installed packages:
 
 ## Reboot
 
-You should now have a working Arch Linux installation. It doesn't have a desktop environtment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
+You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
 
     unmount -R /mnt
 
