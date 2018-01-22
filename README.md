@@ -173,6 +173,7 @@ Note: If you are in a different country change "United States" to your country.
 
 ## Install Arch Linux
 
+Finally we're getting somewhere!
 
     #   pacstrap -i /mnt base base-devel
 
@@ -188,7 +189,7 @@ You can verify fstab with:
 
     #   cat /mnt/etc/fstab
 
-__TO INVESTIGATE!!!__ When we generated the fstab did it add our swap to it?
+__TO INVESTIGATE!!__ When we generated the fstab did it add our swap to it?
 
     /dev/mapper/vg-swap swap swap defaults 0 0
 
