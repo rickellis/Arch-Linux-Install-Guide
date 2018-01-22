@@ -265,7 +265,7 @@ Now delete everything in that file and add the following info. Make sure to repl
     initrd  /initramfs-linux.img
     options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
 
-### Update the bootloader
+### Update Bootloader
 
     bootctl update
 
@@ -313,7 +313,7 @@ Now update the initramfs image with our module change:
 
 ---
 
-## Set language
+## Set Language
 
 Open the locale.gen file and uncomment your preferred language (I'm using en_US.UTF-8):
 
@@ -349,7 +349,7 @@ Update the hardware clock:
 
 ---
 
-## Set hostname
+## Set Hostname
 
 This is the name of your computer. Note: Change "arch" to whatever you want your host to be.
 
@@ -357,23 +357,23 @@ This is the name of your computer. Note: Change "arch" to whatever you want your
 
 ---
 
-## Set root password
+## Set Root Password
 
     passwd
 
 ---
 
-## Create the user account
+## Create User Account
 
     useradd -m -G wheel,users -s /bin/bash <username>
 
-### Set password for user
+And set the user password:
 
     passwd <username>
 
 ---
 
-## Grant user sudo powers
+## Grant User Sudo Powers
 
 Install sudo:
 
@@ -389,7 +389,9 @@ Find this line and uncomment:
 
 ---
 
-## Enable multilib repositories and Yaourt
+## Enable Multilib Repos and Yaourt
+
+Multilib repos allows the user to run and build 32-bit applications on 64-bit installations. Yaourt is a package manager for AUR.
 
 First we need to edit the pacman.conf file:
 
@@ -428,7 +430,7 @@ The installation is basically done so we now update all installed packages:
 
 ## Reboot
 
-You should now have a working Arch Linux installation. It doesn't have a desktop environtment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
+You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
 
     unmount -R /mnt
 
