@@ -14,7 +14,7 @@ You will need to change these to reflect your particular drive. To get this info
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
-    sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
+    #   sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sd* && sync
 
 On Mac use Etcher or UNetBootin. On Windows use Rufus.
 
