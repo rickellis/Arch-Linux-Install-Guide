@@ -1,16 +1,25 @@
-# Arch Linux Installation Guide
+# Installing Arch Linux on a LUKS Encrypted Drive using LVM booting with UEFI
 
-These are the steps necessary to install [Arch Linux](https://www.archlinux.org/) with [LUKS](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup) disk encryption using [Logical Volume Manager](https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)) booting with [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface).
+## Pre-flight Notes
+
+All references to disk nodes in this document are shown as:
+
+    /dev/sd*
+
+You will need to change these to reflect your particular drive. To view your drive info use:
+
+    #   fdisk -l
+
 
 ---
 
-## Prepare Installation Media
+## 1. Prepare Installation Media
 
-[Download](https://www.archlinux.org/download/) the ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
+[Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to do this on Linux is using the dd command:
 
     sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sdX && sync
 
-If you prefer a graphical interface, I've heard good things about [Etcher](https://etcher.io/) and it runs on Linux, Mac, and Windows. Alternately you can use UNetbootin (on Mac or Windows) or Rufus on Windows.
+If you prefer a graphical interface you can use [Etcher](https://etcher.io/) (on Linux, Mac, and Windows), Netbootin (on Mac or Windows), or Rufus on Windows.
 
 ---
 
