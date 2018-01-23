@@ -56,7 +56,7 @@ Optional step if you are using a hard drive with existing data. Here's how to do
 
     #   dd if=/dev/urandom of=/dev/sd* status=progress
 
-Or if you're paranoid you can use a multi-pass tool like shred.
+Or if you're paranoid (and have a day or two to wait) you can use a multi-pass tool like shred.
 
     #   shred -vfz -n 5 /dev/sd*
 
@@ -66,7 +66,7 @@ Or if you're paranoid you can use a multi-pass tool like shred.
 
 __NOTE:__ Since we're using LVM we only need two drive partitions: boot and root. The LVM will be created on root later.
 
-First, launch __parted__ on your desired drive node;
+First, launch __parted__ on your desired drive node:
 
     #   parted /dev/sd*
 
@@ -82,7 +82,7 @@ Then run the following commands with your particular size values:
 
 ## Disk Encryption
 
-Before we setup our LVM we need to encrypt the root partition we just created. For more information about LUKS [go here](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption)
+Before we setup our LVM we need to encrypt the root partition we just created. The Arch Wiki has more information about [LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption).
 
     #   cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
@@ -122,9 +122,9 @@ __Also__ the "L" arguments below are case sensitive. The capital L is used when 
     #   lvcreate -L 20G vg -n root
     #   lvcreate -l 100%FREE vg -n home
 
-### Create Filesystems
+### Create the Filesystems
 
-__Note:__ The boot partition is on the non-LVM partition.
+__Note:__ The boot partition is on the non-LVM partition, so use the disk node you specified when you created that partition.
 
     #   mkfs.vfat -F32 /dev/sd*
     #   mkfs.ext4 /dev/mapper/vg-root
@@ -149,7 +149,7 @@ We need to create a couple directories while we're at it.
 
 ---
 
-## Update mirrorlist
+## Update Mirrorlist
 
 By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that we use reflector.
 
@@ -163,7 +163,7 @@ Note that reflector has two dependencies (rsync and curl) which should be instal
 
     #   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
-### Create New Mirrorlist
+### Create a new mirrorlist
 
 Note: If you are in a different country change "United States" to your country.
 
@@ -173,7 +173,7 @@ Note: If you are in a different country change "United States" to your country.
 
 ## Install Arch Linux
 
-Finally we're getting somewhere!
+Finally, we're getting somewhere!
 
     #   pacstrap -i /mnt base base-devel
 
@@ -189,7 +189,7 @@ You can verify fstab with:
 
     #   cat /mnt/etc/fstab
 
-__TO INVESTIGATE!!__ When we generated the fstab did it add our swap to it?
+__TO INVESTIGATE!!__ When we generate the fstab does it add our swap to it since we're using LVM? I'll have to fire up Virtual box and make sure...stay tuned...
 
     /dev/mapper/vg-swap swap swap defaults 0 0
 
@@ -262,7 +262,7 @@ Now __delete everything__ in that file and add the following info. Make sure to 
 
 ## Update mkinitcpio
 
-Since we're using disk encryption we need to make sure that it gets initialized by the kernel so we can decrypt our drive prior to booting. We also need to make sure that the keyboard is available for use prior to initializing the filesystem, otherwise we will have no input device to type in our password.
+Since we're using disk encryption we need to make sure that the LUKS module gets initialized by the kernel so we can decrypt our drive prior to booting. We also need to make sure that the keyboard is available for use prior to initializing the filesystem, otherwise we will have no input device to type in our password.
 
 Edit the following config file:
 
@@ -328,7 +328,7 @@ Run this command to find your timezone:
 
     #   tzselect
 
-Now, use the timezone you just looked up to create a symbolic link to /etc/localtime:
+Now, use the timezone you just looked up to create a symbolic link to /etc/localtime. __Note:__ Be sure to change __America/Denver__ to your timezone.
 
     #   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
@@ -340,19 +340,21 @@ Update the hardware clock. I use UTC:
 
 ## Set Hostname
 
-This is the name of your computer. Note: Change "arch" to whatever you want your host to be.
+This is the name of your computer. __Note:__ Change "arch" to whatever you want your host to be.
 
     #   echo arch > /etc/hostname
 
 ---
 
-## Set Root Password
+## Set the Root Password
 
     #   passwd
 
 ---
 
 ## Create a User Account
+
+Make sure to replace &lt;username&gt; with your username.
 
     #   useradd -m -G wheel,users -s /bin/bash <username>
 
