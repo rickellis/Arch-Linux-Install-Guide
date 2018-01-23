@@ -411,6 +411,14 @@ Save the file and exit.
 
 ---
 
+## Install Git
+
+You can skip this step. This is something I do because I run a series of shell scripts to automate the installalation of the desktop environment, themes, all my preferred software, and set up my default configurations.
+
+    #   pacman -S git bash-completion
+
+---
+
 ## Update all packages
 
 The installation is basically done so we now update all installed packages:
