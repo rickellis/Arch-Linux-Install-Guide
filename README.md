@@ -380,45 +380,6 @@ Find this line and uncomment:
 
 ---
 
-## Enable Multilib Repos and Yaourt
-
-Multilib repos allows the user to run and build 32-bit applications on 64-bit installations. Yaourt is a package manager for AUR.
-
-First we need to edit the pacman.conf file:
-
-    #   nano /etc/pacman.conf
-
-Uncomment the following lines:
-
-    [multilib]
-    Include = /etc/pacman.d/mirrorlist
-
-Then add these lines for yaourt:
-
-    [archlinuxfr]
-    SigLevel = Never
-    Server = http://repo.archlinux.fr/$arch
-
-Save the file and exit.
-
-### Refresh the package databases
-
-    #   pacman -Syy
-
-### Install Yaourt
-
-    #   sudo pacman -S yaourt
-
----
-
-## Install Git
-
-You can skip this step. This is something I do because I run a series of shell scripts to automate the installalation of the desktop environment, themes, all my preferred software, and set up my default configurations.
-
-    #   pacman -S git bash-completion
-
----
-
 ## Update all packages
 
 The installation is basically done so we now update all installed packages:
