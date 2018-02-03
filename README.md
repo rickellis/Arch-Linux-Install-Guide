@@ -189,10 +189,6 @@ You can verify fstab with:
 
     #   cat /mnt/etc/fstab
 
-__TO INVESTIGATE!!__ When we generate the fstab does it add our swap to it since we're using LVM? I'll have to fire up Virtual box and make sure...stay tuned...
-
-    /dev/mapper/vg-swap swap swap defaults 0 0
-
 ---
 
 ## Change Root
