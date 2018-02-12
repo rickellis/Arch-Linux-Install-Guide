@@ -240,7 +240,7 @@ Since we're using disk encryption we need to make sure that the LUKS module gets
 
 Edit the following config file:
 
-    #   nano /etc/mkintcpio.conf
+    #   nano /etc/mkinitcpio.conf
 
 Scroll down to the HOOKS section. It should look similar to this:
 
@@ -264,7 +264,7 @@ This step is only necessary if your computer is running PCIe storage rather than
 
 Edit the following config file:
 
-    #   nano /etc/mkintcpio.conf
+    #   nano /etc/mkinitcpio.conf
 
 Add __nvme__ to the MODULES variable:
 
@@ -280,7 +280,7 @@ Now update the initramfs image with our module change:
 
 Open the locale.gen file and uncomment your preferred language (I'm using en_US.UTF-8):
 
-    #   nano /etc/local.gen
+    #   nano /etc/locale.gen
 
 Now save the file and generate the locale:
 
@@ -366,6 +366,12 @@ The installation is basically done so we now update all installed packages:
 
 You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
 
-    #   unmount -R /mnt
+First, exit chroot:
+
+    #   exit
+
+Now unmount and reboot
+
+    #   umount -R /mnt
 
     #   reboot
