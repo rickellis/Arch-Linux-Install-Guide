@@ -141,33 +141,11 @@ We need to create a couple directories while we're at it.
     #   mount /dev/mapper/vg-home /mnt/home
 
     #   mkdir /mnt/boot
-    #   mount /dev/sda1 /mnt/boot
+    #   mount /dev/sd* /mnt/boot
 
 ### Enable Swap
 
     #   swapon -s /dev/mapper/vg-swap
-
----
-
-## Update Mirrorlist
-
-By default Arch has a selection of servers from various countries listed in the local mirrorlist. While you might get adequate results with the defaults, to ensure the best possible download speeds it's recommended that you update the mirrorlist with servers from your country. To do that we use reflector.
-
-### Install Reflector
-
-Note that reflector has two dependencies (rsync and curl) which should be installed by default in Arch, but to be safe we specify them:
-
-    #   sudo pacman -S reflector rsync curl
-
-### Backup your local mirrorlist
-
-    #   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-
-### Create a new mirrorlist
-
-Note: If you are in a different country change "United States" to your country.
-
-    #   sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
 ---
 
