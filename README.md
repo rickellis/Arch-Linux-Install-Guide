@@ -382,6 +382,6 @@ Now unmount and reboot
 
     #   reboot
 
-__NOTE:__ If you are installing on VirtualBox you'll have to remove the ISO you booted from. Remove it at:
+__NOTE:__ If you are installing on VirtualBox you'll have to shutdown and remove the ISO you booted from. Remove it in the VirtualBox application at;
 
     Settings > Storage > Controller:IDE
