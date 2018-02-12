@@ -10,6 +10,10 @@ You will need to change these to reflect your particular drive. To get this info
 
     #   fdisk -l
 
+If you are installing on __VirtualBox__ make sure EFI is enabled:
+
+    Settings > System > Enable EFI
+
 ## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
@@ -252,6 +256,8 @@ Change it to this:
 
 Now update the initramfs image with our hooks change:
 
+__NOTE:__ Before running this command, if your computer is running PCI storage, do the steps in the next section first since it involves a change in the same file we're currently in.
+
     #   mkinitcpio -p linux
 
 If you're curious what modules are available as intcpio hooks:
@@ -375,3 +381,7 @@ Now unmount and reboot
     #   umount -R /mnt
 
     #   reboot
+
+__NOTE:__ If you are installing on VirtualBox you'll have to remove the ISO you booted from. Remove it at:
+
+    Settings > Storage > Controller:IDE
