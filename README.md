@@ -10,10 +10,6 @@ You will need to change these to reflect your particular drive. To get this info
 
     #   fdisk -l
 
-If you are installing on __VirtualBox__ make sure EFI is enabled:
-
-    Settings > System > Enable EFI
-
 ## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
@@ -150,6 +146,22 @@ We need to create a couple directories while we're at it.
 ### Enable Swap
 
     #   swapon -s /dev/mapper/vg-swap
+
+---
+
+## Update Mirrorlist
+
+Before we download the Arch packages it's recommended to update the mirrorlist. To do that we install a package called __Reflector__.
+
+    #   pacman -S reflector rsync curl
+
+__NOTE:__ If you get an error regarding missing databases, synchronize them using `pacman -Sy` then try installing Reflector again.
+
+### Create a new mirrorlist
+
+If you are in a different country change "United States" to your country.
+
+    #   reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
 ---
 
@@ -382,6 +394,13 @@ Now unmount and reboot
 
     #   reboot
 
-__NOTE:__ If you are installing on VirtualBox you'll have to shutdown and remove the ISO you booted from. Remove it in the VirtualBox application at;
+
+## If you are running on VirtualBox
+
+If you are installing on VirtualBox you'll have to shutdown and remove the ISO you booted from. Remove it in the VirtualBox application at;
 
     Settings > Storage > Controller:IDE
+
+Also, make sure EFI is enabled:
+
+    Settings > System > Enable EFI
