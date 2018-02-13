@@ -151,7 +151,7 @@ We need to create a couple directories while we're at it.
 
 ## Update Mirrorlist
 
-Before we download the Arch packages it's recommended to update the mirrorlist. To do that we install a package called __Reflector__.
+Before we download the Arch packages it's recommended that we update the mirrorlist. To do that we install a package called __Reflector__.
 
     #   pacman -S reflector rsync curl
 
