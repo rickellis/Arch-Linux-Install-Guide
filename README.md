@@ -151,15 +151,29 @@ We need to create a couple directories while we're at it.
 
 ## Update Mirrorlist
 
-Before we download the Arch packages it's recommended that we update the mirrorlist. To do that we install a package called __Reflector__.
+Before we download the Arch packages we should rank the mirrorlist to ensure our download speeds are as good as possible. There are two ways to accomplish this. The first (rankmirrors) does not require any additional packages, the other (reflector) requires a package download. Both are described next:
+
+### Rankmirrors
+
+Open the mirrorlist file using:
+
+    #   nano /etc/pacman.d/mirrorlist
+
+Then make sure that only servers in your country are uncommented. Alternately, you can `shift + arrow down` to highlight lines you don't want and `Ctrl + K` to cut them. Save the file then run these two commands:
+
+    #   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    #   rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+
+
+### Reflector
+
+Install __Reflector__ using:
 
     #   pacman -S reflector rsync curl
 
 __NOTE:__ If you get an error regarding missing databases, synchronize them using `pacman -Sy` then try installing Reflector again.
 
-### Create a new mirrorlist
-
-If you are in a different country change "United States" to your country.
+Now generate the new mirrorlist. Note: If you are in a different country change "United States" to your country.
 
     #   reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
@@ -420,12 +434,23 @@ Now unmount and reboot
     #   reboot
 
 
-## If you are running on VirtualBox
+## If you are installing Arch on VirtualBox
 
-If you are installing on VirtualBox you'll have to shutdown and remove the ISO you booted from. Remove it in the VirtualBox application at;
+Instead of rebooting, as indicated above, shut down the virtual machine and do the following;
+
+Remove the ISO you booted from at:
 
     Settings > Storage > Controller:IDE
 
-Also, make sure EFI is enabled:
+Make sure EFI is enabled:
 
     Settings > System > Enable EFI
+
+For WiFi connectivity, first get the name of your connection using:
+
+    #   ip link
+
+It should be something like `enp0s3`. Then run:
+
+    #   sudo ip link set dev enp0s3 up
+    #   sudo dhcpcd enp0s3
