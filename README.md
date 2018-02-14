@@ -167,10 +167,10 @@ If you are in a different country change "United States" to your country.
 
 ## Install Arch Linux
 
-Finally, we're getting somewhere!
+If you only want a base Arch install with no additional packages, run:
 
     #   pacstrap -i /mnt base base-devel
-
+    
 ---
 
 ### Generate fstab
@@ -371,6 +371,31 @@ Find this line and uncomment:
     #   %wheel ALL=(ALL) ALL
 
 ---
+
+## Enable AUR and Multilib
+
+Open the pacman.conf file:
+
+    #   nano /etc/pacman.conf
+
+
+Uncomment:
+
+    #[multilib]
+    #Include = /etc/pacman.d/mirrorlist
+
+
+Add this:
+
+    [archlinuxfr]
+    SigLevel = Never
+    Server = http://repo.archlinux.fr/$arch
+
+
+In that same file add (or uncomment if it's there):
+
+    color
+    ILoveCandy
 
 ## Update all packages
 
