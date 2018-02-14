@@ -421,7 +421,7 @@ The installation is basically done so we now update all installed packages:
 
 ## Reboot
 
-__Note:__ Before rebooting, if you are using WiFi rather than a wired connection, you might want to install a (network package)[https://wiki.archlinux.org/index.php/Wireless_network_configuration] to allow WiFi connectivity with your new system.
+__Note:__ Before rebooting, if you are using WiFi rather than a wired connection, you might want to install a __[network package](https://wiki.archlinux.org/index.php/Wireless_network_configuration)__ to allow WiFi connectivity with your new system.
 
 You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
 
