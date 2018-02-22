@@ -8,13 +8,13 @@ All references to disk nodes in this document are shown as:
 
 You will need to change these to reflect your particular drive. To get this info use:
 
-    #   fdisk -l
+    $   fdisk -l
 
 ## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
-    #   sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sd* && sync
+    $   sudo dd bs=4M if=/path_to_arch_.iso of=/dev/sd* && sync
 
 On Mac use Etcher or UNetBootin. On Windows use Rufus.
 
@@ -42,11 +42,11 @@ Hold F12 (or whatever key is used on your system) during startup to access start
 
 The most reliable way is to use a wired connection, as Arch is setup by default to connect to DHCP. However, you can usually get WiFi working by running:
 
-    #   wifi-menu
+    $   wifi-menu
 
 To test your connection:
 
-    #   ping -c 3 www.google.com
+    $   ping -c 3 www.google.com
 
 ---
 
@@ -54,11 +54,11 @@ To test your connection:
 
 Optional step if you are using a hard drive with existing data. Here's how to do it using dd:
 
-    #   dd if=/dev/urandom of=/dev/sd* status=progress
+    $   dd if=/dev/urandom of=/dev/sd* status=progress
 
 Or if you're paranoid (and have a day or two to wait) you can use a multi-pass tool like shred.
 
-    #   shred -vfz -n 5 /dev/sd*
+    $   shred -vfz -n 5 /dev/sd*
 
 ---
 
@@ -68,15 +68,15 @@ __NOTE:__ Since we're using LVM we only need two drive partitions: boot and root
 
 First, launch __parted__ on your desired drive node:
 
-    #   parted /dev/sd*
+    $   parted /dev/sd*
 
 Then run the following commands with your particular size values:
 
-    #   (parted) mklabel gpt
-    #   (parted) mkpart primary 1MiB 512MiB name 1 boot
-    #   (parted) set 1 boot on
-    #   (parted) mkpart primary 512MiB 100% name 2 root
-    #   (parted) quit
+    $   (parted) mklabel gpt
+    $   (parted) mkpart primary 1MiB 512MiB name 1 boot
+    $   (parted) set 1 boot on
+    $   (parted) mkpart primary 512MiB 100% name 2 root
+    $   (parted) quit
 
 ---
 
@@ -84,17 +84,17 @@ Then run the following commands with your particular size values:
 
 Before we setup our LVM we need to encrypt the root partition we just created. The Arch Wiki has more information about [LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption).
 
-    #   cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
+    $   cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
 Now let's decrypt it so we can use it.
 
 __Note__: I'm labeling this partition as "lvm". We will use this label later when we create the LVM.
 
-    #   cryptsetup open --type luks /dev/sd* lvm
+    $   cryptsetup open --type luks /dev/sd* lvm
 
 To verify our "lvm" label we can use:
 
-    #   ls /dev/mapper/lvm
+    $   ls /dev/mapper/lvm
 
 ---
 
@@ -102,13 +102,13 @@ To verify our "lvm" label we can use:
 
 ### Create a Physical Volume
 
-    #   pvcreate /dev/mapper/lvm
+    $   pvcreate /dev/mapper/lvm
 
 ### Create a Volume Group
 
 __Note:__ I'm labelling my volume group as "vg". If you use something else, make sure to replace every instance of it, not only in this section, but in the bootloader config section much later.
 
-    #   vgcreate vg /dev/mapper/lvm
+    $   vgcreate vg /dev/mapper/lvm
 
 ### Create the Logical Volumes
 
@@ -118,34 +118,34 @@ __Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G).
 
 __Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercase l lets you specify percentages.
 
-    #   lvcreate -L 4G vg -n swap
-    #   lvcreate -L 20G vg -n root
-    #   lvcreate -l 100%FREE vg -n home
+    $   lvcreate -L 4G vg -n swap
+    $   lvcreate -L 20G vg -n root
+    $   lvcreate -l 100%FREE vg -n home
 
 ### Create the Filesystems
 
 __Note:__ The boot partition is on the non-LVM partition, so use the disk node you specified when you created that partition.
 
-    #   mkfs.vfat -F32 /dev/sd*
-    #   mkfs.ext4 /dev/mapper/vg-root
-    #   mkfs.ext4 /dev/mapper/vg-home
-    #   mkswap /dev/mapper/vg-swap
+    $   mkfs.vfat -F32 /dev/sd*
+    $   mkfs.ext4 /dev/mapper/vg-root
+    $   mkfs.ext4 /dev/mapper/vg-home
+    $   mkswap /dev/mapper/vg-swap
 
 ### Mount the volumes
 
 We need to create a couple directories while we're at it.
 
-    #   mount /dev/mapper/vg-root /mnt
+    $   mount /dev/mapper/vg-root /mnt
 
-    #   mkdir /mnt/home
-    #   mount /dev/mapper/vg-home /mnt/home
+    $   mkdir /mnt/home
+    $   mount /dev/mapper/vg-home /mnt/home
 
-    #   mkdir /mnt/boot
-    #   mount /dev/sd* /mnt/boot
+    $   mkdir /mnt/boot
+    $   mount /dev/sd* /mnt/boot
 
 ### Enable Swap
 
-    #   swapon -s /dev/mapper/vg-swap
+    $   swapon -s /dev/mapper/vg-swap
 
 ---
 
@@ -157,25 +157,25 @@ Before we download the Arch packages we should rank the mirrorlist to ensure our
 
 Open the mirrorlist file using:
 
-    #   nano /etc/pacman.d/mirrorlist
+    $   nano /etc/pacman.d/mirrorlist
 
 Then make sure that only servers in your country are uncommented. Alternately, you can `shift + arrow down` to highlight lines you don't want and `Ctrl + K` to cut them. Save the file then run these two commands:
 
-    #   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    #   rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+    $   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    $   rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
 
 ### Reflector
 
 Install __Reflector__ using:
 
-    #   pacman -S reflector rsync curl
+    $   pacman -S reflector rsync curl
 
 __NOTE:__ If you get an error regarding missing databases, synchronize them using `pacman -Sy` then try installing Reflector again.
 
 Now generate the new mirrorlist. Note: If you are in a different country change "United States" to your country.
 
-    #   reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+    $   reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
 ---
 
@@ -183,7 +183,7 @@ Now generate the new mirrorlist. Note: If you are in a different country change 
 
 If you only want a base Arch install with no additional packages, run:
 
-    #   pacstrap -i /mnt base base-devel
+    $   pacstrap -i /mnt base base-devel
     
 ---
 
@@ -191,11 +191,11 @@ If you only want a base Arch install with no additional packages, run:
 
 We now need to update the filesystem table on the new installation. Fstab contains the association between filesystems and mountpoints.
 
-    #   genfstab -U -p /mnt >> /mnt/etc/fstab
+    $   genfstab -U -p /mnt >> /mnt/etc/fstab
 
 You can verify fstab with:
 
-    #   cat /mnt/etc/fstab
+    $   cat /mnt/etc/fstab
 
 ---
 
@@ -203,7 +203,7 @@ You can verify fstab with:
 
 Since we're still booted via USB, in order to configure our new system we need to change root. If we don't do that, every change we make will be applied to the USB installation.
 
-    #   arch-chroot /mnt
+    $   arch-chroot /mnt
 
 ---
 
@@ -211,13 +211,13 @@ Since we're still booted via USB, in order to configure our new system we need t
 
 While there are various bootloaders that may be used, since the Linux kernel has a built-in EFI image, all we need is a way to execute it. For that we will install systemd-boot:
 
-    #   bootctl --path=/boot install
+    $   bootctl --path=/boot install
 
 ### Update the loader.conf file
 
 Using nano we can edit the config file:
 
-    #   nano /boot/loader/loader.conf
+    $   nano /boot/loader/loader.conf
 
 Make sure that __only__ the following lines are in the file:
 
@@ -231,23 +231,23 @@ __Notes:__ The timeout setting is the number of seconds the menu is displayed. T
 
 In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. In order to get the UUID you first need to know what device node root is on. Look it up using:
 
-    #   fdisk -l
+    $   fdisk -l
 
 The device node will be something like
 
-    #   /dev/sda2
+    $   /dev/sda2
 
 You can now get the UUID that corresponds to the root node you just looked up using:
 
-    #   blkid /dev/sda2
+    $   blkid /dev/sda2
 
 You can either write down the UUID (which is painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
 
-    #   blkid /dev/sda2 > /boot/loader/entries/arch.conf
+    $   blkid /dev/sda2 > /boot/loader/entries/arch.conf
 
 Then open the config file in nano:
 
-    #   nano /boot/loader/entries/arch.conf
+    $   nano /boot/loader/entries/arch.conf
 
 Arrow over to the UUID and shift/arrow to highlight it. Use Ctl+K to cut the line. It will remain in the clipboard for use next.
 
@@ -260,7 +260,7 @@ Now __delete everything__ in that file and add the following info. Make sure to 
 
 ### Update Bootloader
 
-    #   bootctl update
+    $   bootctl update
 
 ---
 
@@ -270,7 +270,7 @@ Since we're using disk encryption we need to make sure that the LUKS module gets
 
 Edit the following config file:
 
-    #   nano /etc/mkinitcpio.conf
+    $   nano /etc/mkinitcpio.conf
 
 Scroll down to the HOOKS section. It should look similar to this:
 
@@ -284,11 +284,11 @@ Now update the initramfs image with our hooks change:
 
 __NOTE:__ Before running this command, if your computer is running PCI storage, do the steps in the next section first since it involves a change in the same file we're currently in.
 
-    #   mkinitcpio -p linux
+    $   mkinitcpio -p linux
 
 If you're curious what modules are available as intcpio hooks:
 
-    #   ls /usr/lib/initcpio/install
+    $   ls /usr/lib/initcpio/install
 
 ## Add NVMe to mkinitcpio
 
@@ -296,7 +296,7 @@ This step is only necessary if your computer is running PCIe storage rather than
 
 Edit the following config file:
 
-    #   nano /etc/mkinitcpio.conf
+    $   nano /etc/mkinitcpio.conf
 
 Add __nvme__ to the MODULES variable:
 
@@ -304,7 +304,7 @@ Add __nvme__ to the MODULES variable:
 
 Now update the initramfs image with our module change:
 
-    #   mkinitcpio -p linux
+    $   mkinitcpio -p linux
 
 ---
 
@@ -312,19 +312,19 @@ Now update the initramfs image with our module change:
 
 Open the locale.gen file and uncomment your preferred language (I'm using en_US.UTF-8):
 
-    #   nano /etc/locale.gen
+    $   nano /etc/locale.gen
 
 Now save the file and generate the locale:
 
-    #   locale-gen
+    $   locale-gen
 
 Add your language choice to the locale.conf file:
 
-    #   echo LANG=en_US.UTF-8 > /etc/locale.conf
+    $   echo LANG=en_US.UTF-8 > /etc/locale.conf
 
 Export the language as an environmental shell variable:
 
-    #   export LANG=en_US.UTF-8
+    $   export LANG=en_US.UTF-8
 
 ---
 
@@ -332,15 +332,15 @@ Export the language as an environmental shell variable:
 
 Run this command to find your timezone:
 
-    #   tzselect
+    $   tzselect
 
 Now, use the timezone you just looked up to create a symbolic link to /etc/localtime. __Note:__ Be sure to change __America/Denver__ to your timezone.
 
-    #   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
+    $   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
 Update the hardware clock. I use UTC:
 
-    #   hwclock --systohc --utc
+    $   hwclock --systohc --utc
 
 ---
 
@@ -348,13 +348,13 @@ Update the hardware clock. I use UTC:
 
 This is the name of your computer. __Note:__ Change "arch" to whatever you want your host to be.
 
-    #   echo arch > /etc/hostname
+    $   echo arch > /etc/hostname
 
 ---
 
 ## Set the Root Password
 
-    #   passwd
+    $   passwd
 
 ---
 
@@ -362,11 +362,11 @@ This is the name of your computer. __Note:__ Change "arch" to whatever you want 
 
 Make sure to replace &lt;username&gt; with your username.
 
-    #   useradd -m -G wheel,users -s /bin/bash <username>
+    $   useradd -m -G wheel,users -s /bin/bash <username>
 
 And set the user password:
 
-    #   passwd <username>
+    $   passwd <username>
 
 ---
 
@@ -374,15 +374,15 @@ And set the user password:
 
 Install sudo:
 
-    #   pacman -S sudo
+    $   pacman -S sudo
 
 Then run the following command, which will open the sudoers file:
 
-    #   EDITOR=nano visudo
+    $   EDITOR=nano visudo
 
 Find this line and uncomment:
 
-    #   %wheel ALL=(ALL) ALL
+    $   %wheel ALL=(ALL) ALL
 
 ---
 
@@ -390,14 +390,12 @@ Find this line and uncomment:
 
 Open the pacman.conf file:
 
-    #   nano /etc/pacman.conf
-
+    $   nano /etc/pacman.conf
 
 Uncomment:
 
     #[multilib]
     #Include = /etc/pacman.d/mirrorlist
-
 
 Add this:
 
@@ -405,17 +403,21 @@ Add this:
     SigLevel = Never
     Server = http://repo.archlinux.fr/$arch
 
-
 In that same file add (or uncomment if it's there):
 
     color
     ILoveCandy
 
+## Install Yaourt
+There are a variety of __[AUR helpers](https://wiki.archlinux.org/index.php/AUR_helpers)__ to chose from. The most commonly used is Yaourt:
+
+    $ pacman -Sy yaourt
+
 ## Update all packages
 
 The installation is basically done so we now update all installed packages:
 
-    #   pacman -Syu
+    $   pacman -Syu
 
 ---
 
@@ -427,13 +429,13 @@ You should now have a working Arch Linux installation. It doesn't have a desktop
 
 First, exit chroot:
 
-    #   exit
+    $   exit
 
 Now unmount and reboot
 
-    #   umount -R /mnt
+    $   umount -R /mnt
 
-    #   reboot
+    $   reboot
 
 
 ## If you are installing Arch on VirtualBox
@@ -450,9 +452,9 @@ Make sure EFI is enabled:
 
 For WiFi connectivity, first get the name of your connection using:
 
-    #   ip link
+    $   ip link
 
 It should be something like `enp0s3`. Then run:
 
-    #   sudo ip link set dev enp0s3 up
-    #   sudo dhcpcd enp0s3
+    $   sudo ip link set dev enp0s3 up
+    $   sudo dhcpcd enp0s3
