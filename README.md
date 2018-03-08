@@ -408,11 +408,6 @@ In that same file add (or uncomment if it's there):
     color
     ILoveCandy
 
-## Install Yaourt
-There are a variety of __[AUR helpers](https://wiki.archlinux.org/index.php/AUR_helpers)__ to chose from. The most commonly used is Yaourt:
-
-    $ pacman -Sy yaourt
-
 ## Update all packages
 
 The installation is basically done so we now update all installed packages:
