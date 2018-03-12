@@ -1,6 +1,6 @@
 # Installing Arch Linux on a LUKS Encrypted Drive using LVM booting with UEFI
 
-This document is identical to the README, except I've change all the drive references to the actual names of the drive nodes on my Dell XPS 13. 
+__Note: This document is identical to the README, except I've change all the drive references to the actual names of the drive nodes on my Dell XPS 13.__
 
 ## Pre-flight Notes
 
