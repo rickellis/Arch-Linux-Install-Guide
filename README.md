@@ -185,7 +185,7 @@ If you only want a base Arch install with no additional packages, run:
 
     $   pacstrap -i /mnt base base-devel
 
-Typically I install git and dialog to allow wifi-menu to work post-install:
+Typically I install git and dialog to allow me to clone my installer scripts and get wifi-menu to work post-install:
 
     $   pacstrap -i /mnt base base-devel git dialog
 ---
