@@ -435,6 +435,10 @@ Now unmount and reboot
 
     $   reboot
 
+Or, if you prefer you can shutdown. Instead of `reboot` use:
+
+    $   poweroff
+
 
 ## If you are installing Arch on VirtualBox
 
