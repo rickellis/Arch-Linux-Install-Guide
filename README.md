@@ -50,6 +50,28 @@ To test your connection:
 
 ---
 
+## Increase Terminal Font Size
+
+If the terminal font is too small, which can happen if you have a high res display, then install terminus fonts.
+
+First, update pacman caches:
+
+    $   pacman -Sy
+
+Then install the fonts:
+
+    $   pacman -S terminus-font
+
+Update font cache
+
+    $   fc-cache -fv
+
+Set the font to a large size:
+
+    $   setfont ter-v32b
+
+---
+
 ## Remove existing drive partitions
 
 If you are installing Arch on a previously used hard drive you can remove partitions using `fdisk`
