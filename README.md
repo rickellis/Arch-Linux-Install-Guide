@@ -185,9 +185,9 @@ If you only want a base Arch install with no additional packages, run:
 
     $   pacstrap -i /mnt base base-devel
 
-Typically I install `git` and `dialog` to allow me to clone my installer scripts and get wifi-menu to work post-install:
+Typically I also install `git` so I can clone my installer scripts, and `dialog` and `wpa_supplicant` so that `wifi-menu` will work post-install:
 
-    $   pacstrap -i /mnt base base-devel git dialog
+    $   pacstrap -i /mnt base base-devel git dialog wpa_supplicant
 ---
 
 ### Generate fstab
@@ -277,11 +277,15 @@ Edit the following config file:
 
 Scroll down to the HOOKS section. It should look similar to this:
 
-    HOOKS="base udev autodetect modconf block filesystems keyboard fsck"
+    HOOKS=("base udev autodetect modconf block filesystems keyboard fsck")
 
 Change it to this:
 
-    HOOKS="base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck"
+    HOOKS=("base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck")
+
+I also add consolefont to mine in order to specify a larger default font size when booted into the terminal with high res screens, as the text ends up too small.
+
+    HOOKS=(base udev autodetect modconf block keyboard consolefont keymap encrypt lvm2 filesystems fsck)
 
 Now update the initramfs image with our hooks change:
 
