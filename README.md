@@ -50,6 +50,32 @@ To test your connection:
 
 ---
 
+## Remove existing drive partitions
+
+If you are installing Arch on a previously used hard drive you can remove partitions using `fdisk`
+
+First, get the drive node name containing the partition(s) you want to remove and run:
+
+    $   fdisk /dev/sd*
+
+Then enter "p" for the partition list:
+
+    $   p
+
+Then enter "d" to delete:
+
+    $   d
+
+You'll be prompted to enter the number corresponding to the partition you want to remove.
+
+To commit the changes enter:
+
+    $   w
+
+Then reboot
+
+---
+
 ## Zero Hard Drive with Random Data
 
 Optional step if you are using a hard drive with existing data. Here's how to do it using dd:
