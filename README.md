@@ -261,9 +261,13 @@ Now __delete everything__ in that file and add the following info. Make sure to 
     initrd  /initramfs-linux.img
     options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
 
-On that last line you can also add a default monitor resolution to be applied during boot:
+__Note:__ If you installed the `intel-ucode` package your arch.conf file will have an additional line:
 
-    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw video=2560x1440
+    title   Arch Linux
+    linux   /vmlinuz-linux
+    initrd  /intel-ucode.img
+    initrd  /initramfs-linux.img
+    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
 
 ### Update Bootloader
 
