@@ -84,7 +84,7 @@ Optional step if you are using a hard drive with existing data. Here's how to do
 
 Or if you're paranoid (and have a day or two to wait) you can use a multi-pass tool like shred.
 
-    $   shred -vfz -n 5 /dev/sd*
+    $   shred -vfz -n 3 /dev/sd*
 
 ---
 
@@ -145,7 +145,7 @@ __Note:__ The sizes below can be specified in megabytes (100M) or gigs (10G).
 __Also__ the "L" arguments below are case sensitive. The capital L is used when you want to specify a fixed size volume, the lowercase l lets you specify percentages.
 
     $   lvcreate -L 4G vg -n swap
-    $   lvcreate -L 20G vg -n root
+    $   lvcreate -L 80G vg -n root
     $   lvcreate -l 100%FREE vg -n home
 
 ### Create the Filesystems
