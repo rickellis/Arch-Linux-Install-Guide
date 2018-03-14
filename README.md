@@ -185,9 +185,9 @@ If you only want a base Arch install with no additional packages, run:
 
     $   pacstrap -i /mnt base base-devel
 
-Typically I also install `git` so I can clone my installer scripts, and `dialog` and `wpa_supplicant` so that `wifi-menu` will work post-install:
+Typically I also install `git` so I can clone my post-install setup and config scripts, along with `dialog` and `wpa_supplicant` so that `wifi-menu` will work after booting into the new system. I also install `intel-ucode` to allow the Linux kernel to update the __[processor microcode](https://wiki.archlinux.org/index.php/microcode)__.
 
-    $   pacstrap -i /mnt base base-devel git dialog wpa_supplicant
+    $   pacstrap -i /mnt base base-devel git dialog wpa_supplicant intel-ucode
 ---
 
 ### Generate fstab
@@ -260,6 +260,10 @@ Now __delete everything__ in that file and add the following info. Make sure to 
     linux   /vmlinuz-linux
     initrd  /initramfs-linux.img
     options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
+
+On that last line you can also add a default monitor resolution to be applied during boot:
+
+    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw video=2560x1440
 
 ### Update Bootloader
 
