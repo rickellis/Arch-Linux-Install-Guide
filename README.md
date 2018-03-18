@@ -341,7 +341,7 @@ Change it to this:
 
 I also add consolefont to mine in order to specify a larger default font size when booted into the terminal with high res screens, as the text ends up too small.
 
-    HOOKS=(base udev autodetect modconf block keyboard consolefont keymap encrypt lvm2 filesystems fsck)
+    HOOKS=(consolefont base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
 
 Now update the initramfs image with our hooks change:
 
@@ -363,7 +363,7 @@ Edit the following config file:
 
 Add __nvme__ to the MODULES variable:
 
-    MODULES="nvme"
+    MODULES=(nvme)
 
 Now update the initramfs image with our module change:
 
