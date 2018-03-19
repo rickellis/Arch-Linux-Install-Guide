@@ -399,6 +399,10 @@ Now, use the timezone you just looked up to create a symbolic link to /etc/local
 
     $   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
+__Note:__ If you get an error that says `failed to create symbolic link '/etc/localtime': File exists`, you must first delete the localtime file:
+
+    $   rm /etc/localtime
+
 Update the hardware clock. I use UTC:
 
     $   hwclock --systohc --utc
