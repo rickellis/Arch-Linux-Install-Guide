@@ -94,8 +94,6 @@ To commit the changes enter:
 
     $   w
 
-Then reboot
-
 ---
 
 ## Zero Hard Drive with Random Data
