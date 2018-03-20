@@ -329,7 +329,7 @@ Edit the following config file:
 
     $   nano /etc/mkinitcpio.conf
 
-Add HOOKS: Scroll down to the HOOKS section. It should look similar to this:
+Scroll down to the HOOKS section. It should look similar to this:
 
     HOOKS=("base udev autodetect modconf block filesystems keyboard fsck")
 
@@ -343,11 +343,7 @@ I also add consolefont to mine in order to specify a larger default font size wh
 
 Lastly, If your computer is running PCIe storage rather than SATA add `nvme` to MODULES. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it.
 
-Scroll up to the MODULES section. It should be empty:
-
-    MODULES=()
-
-Add `nvme` to MODULES:
+Scroll up to the MODULES section and change it to:
 
     MODULES=(nvme)
 
