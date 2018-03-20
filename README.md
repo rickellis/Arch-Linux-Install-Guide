@@ -116,7 +116,7 @@ First, launch __parted__ on your desired drive node:
 
     $   parted /dev/sd*
 
-Then run the following commands with your particular size values:
+Then run the following commands with your particular size values. Sizes can be specified in `MiB`, `GiB`, or as a percentage:
 
     $   (parted) mklabel gpt
     $   (parted) mkpart primary 1MiB 512MiB name 1 boot
