@@ -329,7 +329,7 @@ Edit the following config file:
 
     $   nano /etc/mkinitcpio.conf
 
-Scroll down to the HOOKS section. It should look similar to this:
+Add HOOKS: Scroll down to the HOOKS section. It should look similar to this:
 
     HOOKS=("base udev autodetect modconf block filesystems keyboard fsck")
 
@@ -337,35 +337,27 @@ Change it to this:
 
     HOOKS=("base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck")
 
-I also add consolefont to mine in order to specify a larger default font size when booted into the terminal with high res screens, as the text ends up too small.
+I also add consolefont to mine in order to specify a larger default font size when booted into the terminal with high res screens, as the text ends up too small. I put the hook very early on:
 
     HOOKS=(consolefont base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
 
-Now update the initramfs image with our hooks change:
+Lastly, If your computer is running PCIe storage rather than SATA add `nvme` to MODULES. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it.
 
-__NOTE:__ Before running this command, if your computer is running PCI storage, do the steps in the next section first since it involves a change in the same file we're currently in.
+Scroll up to the MODULES section. It should be empty:
+
+    MODULES=()
+
+Add `nvme` to MODULES:
+
+    MODULES=(nvme)
+
+Now update the initramfs image with our changes:
 
     $   mkinitcpio -p linux
 
 If you're curious what modules are available as intcpio hooks:
 
     $   ls /usr/lib/initcpio/install
-
-## Add NVMe to mkinitcpio
-
-This step is only necessary if your computer is running PCIe storage rather than SATA. NVMe is a specification for accessing SSDs attached through the PCI Express bus. The Linux kernel includes an NVMe driver, so we just need to tell the kernel to load it. This is done by updating the MODULES variable in mkinitcpio which we added HOOKS to previously.
-
-Edit the following config file:
-
-    $   nano /etc/mkinitcpio.conf
-
-Add __nvme__ to the MODULES variable:
-
-    MODULES=(nvme)
-
-Now update the initramfs image with our module change:
-
-    $   mkinitcpio -p linux
 
 ---
 
