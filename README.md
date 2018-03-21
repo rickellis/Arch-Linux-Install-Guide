@@ -10,6 +10,10 @@ You will need to change these to reflect your particular drive. To get this info
 
     $   fdisk -l
 
+Or
+
+    $   lsblk
+
 ## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
@@ -484,7 +488,7 @@ Now unmount and reboot
 
     $   reboot
 
-Or, if you prefer you can shutdown. Instead of `reboot` use:
+Or, if you prefer you can shutdown:
 
     $   poweroff
 
