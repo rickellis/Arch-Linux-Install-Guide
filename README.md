@@ -6,13 +6,13 @@ All references to disk nodes in this document are shown as:
 
     /dev/sd*
 
-You will need to change these to reflect your particular drive. To get this info use:
+You will need to change these to reflect your particular drive. To get this info use either of these commands:
 
     $   fdisk -l
 
-Or
-
     $   lsblk
+
+
 
 ## Prepare Installation Media
 
