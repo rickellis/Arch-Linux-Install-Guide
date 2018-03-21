@@ -469,11 +469,10 @@ The installation is basically done so we now update all installed packages:
 
 ---
 
-## Reboot
+## Congratulations!
 
-__Note:__ Before rebooting, if you are using WiFi rather than a wired connection, you might want to install a __[network package](https://wiki.archlinux.org/index.php/Wireless_network_configuration)__ to allow WiFi connectivity with your new system.
-
-You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet, but the base installation is done. You can now reboot and remove the USB drive:
+You should now have a working Arch Linux installation. It doesn't have a desktop environment or any applications yet...for that you can 
+check out my __[ArchMatic](https://github.com/rickellis/ArchMatic)__ repo, but the base installation is done.
 
 First, exit chroot:
 
@@ -488,6 +487,11 @@ Now unmount and reboot
 Or, if you prefer you can shutdown. Instead of `reboot` use:
 
     $   poweroff
+
+
+## Next Step
+
+Check out my __[ArchMatic](https://github.com/rickellis/ArchMatic)__ repo to install and configure a full system.
 
 
 ## If you are installing Arch on VirtualBox
