@@ -502,11 +502,13 @@ Or, if you prefer you can shutdown:
 
     $   poweroff
 
+---
 
 ## Next Step
 
 Check out my __[ArchMatic](https://github.com/rickellis/ArchMatic)__ repo to install and configure a full system.
 
+---
 
 ## If you are installing Arch on VirtualBox
 
