@@ -116,7 +116,7 @@ Optional step if you are using a hard drive with existing data. Here's how to do
 
     $   dd if=/dev/urandom of=/dev/sd* status=progress
 
-Or if you're paranoid (and have a day or two to wait) you can use a multi-pass tool like shred.
+Or if you're paranoid (and have a couple days to wait) you can use a multi-pass tool like shred.
 
     $   shred -vfz -n 3 /dev/sd*
 
