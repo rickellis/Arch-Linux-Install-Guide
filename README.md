@@ -483,7 +483,7 @@ Then save the file.
 
 ## Update all packages
 
-The installation is basically done so we now update all installed packages:
+The installation is basically done so we now update the databases and all installed packages:
 
     $   pacman -Syu
 
