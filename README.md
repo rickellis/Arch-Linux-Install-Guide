@@ -1,5 +1,13 @@
 # Installing Arch Linux on a LUKS Encrypted Drive using LVM booting with UEFI
 
+This document describes my preferred way to install Arch Linux.
+
+* LUKS allows full disk encryption.
+* LVM (Logical Volume Management) is a more flexible way to set up a hard drive, as it allows partitions to be dynamically resized.
+* UEFI is the modern replacement for Legacy BIOS.
+
+---
+
 ## Pre-flight Notes
 
 All references to disk nodes in this document are shown as:
@@ -12,7 +20,7 @@ You will need to change these to reflect your particular drive. To get this info
 
     $   lsblk
 
-
+---
 
 ## Prepare Installation Media
 
