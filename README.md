@@ -455,27 +455,31 @@ Find this line and uncomment:
 
 ---
 
-## Enable AUR and Multilib
+## Enable AUR and Multilib Repositories
 
 Open the pacman.conf file:
 
     $   nano /etc/pacman.conf
 
-Uncomment:
+If you want to be able to run 32bit software on a 64bit system then __uncomment__:
 
     #[multilib]
     #Include = /etc/pacman.d/mirrorlist
 
-Add this:
+If you plan on downloading packages from the Arch User Repository, add this:
 
     [archlinuxfr]
     SigLevel = Never
     Server = http://repo.archlinux.fr/$arch
 
-In that same file add (or uncomment if it's there):
+In that same file add these (or uncomment if either are there). `color` give you colored output when running pacman commands, and `ILoveCandy` gives you the little yellow pacman animation.
 
     color
     ILoveCandy
+
+Then save the file.
+
+---
 
 ## Update all packages
 
