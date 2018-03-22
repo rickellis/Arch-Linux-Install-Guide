@@ -415,9 +415,9 @@ Update the hardware clock. I use UTC:
 
 ## Set Hostname
 
-This is the name of your computer. __Note:__ Change "arch" to whatever you want your host to be.
+This is the name of your computer. I name mine "Arch", but you can change it to whatever you want your host to be.
 
-    $   echo arch > /etc/hostname
+    $   echo Arch > /etc/hostname
 
 ---
 
