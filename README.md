@@ -292,9 +292,9 @@ __Notes:__ The timeout setting is the number of seconds the menu is displayed. T
 
 ### Get the UUID for root
 
-In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. In order to get the UUID you first need to know what device node root is on. Look it up using:
+In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. The root partition is where we installed our LVM on. If you don't recall the name of that node you can look it up using:
 
-    $   fdisk -l
+    $   lsblk
 
 The device node will be something like
 
