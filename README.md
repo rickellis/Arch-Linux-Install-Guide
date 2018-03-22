@@ -405,6 +405,8 @@ __Note:__ If you get an error that says `failed to create symbolic link '/etc/lo
 
     $   rm /etc/localtime
 
+Then you should be able to create the symbolic link.
+
 Update the hardware clock. I use UTC:
 
     $   hwclock --systohc --utc
