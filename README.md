@@ -3,7 +3,9 @@
 This document describes my preferred way to install Arch Linux.
 
 * LUKS allows full disk encryption.
+
 * LVM (Logical Volume Management) is a more flexible way to set up a hard drive, as it allows partitions to be dynamically resized.
+
 * UEFI is the modern replacement for Legacy BIOS.
 
 ---
