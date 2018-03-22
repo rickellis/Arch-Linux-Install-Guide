@@ -510,12 +510,6 @@ Or, if you prefer you can shutdown:
 
 ---
 
-## Next Step
-
-Check out my __[ArchMatic](https://github.com/rickellis/ArchMatic)__ repo to install and configure a full system.
-
----
-
 ## If you are installing Arch on VirtualBox
 
 Instead of rebooting, as indicated above, shut down the virtual machine and do the following;
