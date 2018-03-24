@@ -288,7 +288,7 @@ Make sure that __only__ the following lines are in the file:
     timeout 3
     editor 0
 
-__Notes:__ The timeout setting is the number of seconds the menu is displayed. The editor setting determines whether the kernel parameters are editable. For security reasons we disable this.
+__Notes:__ The timeout setting is the number of seconds the menu is displayed before it automatically boots the default choice. The editor setting determines whether the kernel parameters are editable via the terminal. For security reasons we disable this.
 
 ### Get the UUID for root
 
