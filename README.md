@@ -10,9 +10,9 @@ This document describes my preferred way to install Arch Linux.
 
 ---
 
-## Pre-Flight Notes
+# Pre-Flight Notes
 
-### Disk Node References
+## Disk Node References
 
 All references to disk nodes in this document are shown as:
 
@@ -26,7 +26,7 @@ You will need to change `sd*` to the actual node name you want to use on your dr
 
 ---
 
-### Prepare Installation Media
+## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
@@ -36,7 +36,7 @@ On Mac use Etcher or UNetBootin. On Windows use Rufus.
 
 ---
 
-### BIOS Configuration
+## BIOS Configuration
 
 Hold F12 (or whatever key is used on your system) during startup to access bios. Then...
 
