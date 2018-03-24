@@ -310,7 +310,7 @@ Then open the config file in nano:
 
 Arrow over to the UUID and `shift + arrow` to highlight it. Use `Ctl+K` to cut the line. It will remain in the clipboard for use next.
 
-Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously (which you can paste from your clipboard using Ctrl+U).
+Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously, which you can paste from your clipboard using `Ctrl+U`.
 
     title   Arch Linux
     linux   /vmlinuz-linux
