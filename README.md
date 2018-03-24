@@ -296,13 +296,9 @@ In the next step we will update the boot loader config file. But first, we need 
 
     $   lsblk
 
-The device node will be something like
-
-    $   /dev/sda2
-
 You can now get the UUID that corresponds to the root node you just looked up using:
 
-    $   blkid /dev/sda2
+    $   blkid /dev/sd*
 
 You can either write down the UUID (which is painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
 
