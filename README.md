@@ -124,7 +124,7 @@ Or if you're paranoid (and have a couple days to wait) you can use a multi-pass 
 
 ## Partition Hard Drive
 
-__NOTE:__ Since we're using LVM we only need two drive partitions: boot and root. The LVM will be created on root later.
+__NOTE:__ Since we're using LVM we only need two drive partitions: boot and root. The LVM will be created on root later. It will contain home and swap partitions.
 
 First, launch __parted__ on your desired drive node:
 
