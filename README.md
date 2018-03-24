@@ -142,7 +142,7 @@ Then run the following commands with your particular size values. Sizes can be s
 
 ## Disk Encryption
 
-Before we setup our LVM we need to encrypt the root partition we just created. The Arch Wiki has more information about [LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption).
+Before we setup our LVM we need to encrypt the root partition we just created. I use AES 256. Note that cryptsetup splits the supplied key in half, so to use AES-256 we set the key size to 512.  For more information about LUKS you can visit the [Arch Wiki](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption).
 
     $   cryptsetup luksFormat -v -s 512 -h sha512 /dev/sd*
 
