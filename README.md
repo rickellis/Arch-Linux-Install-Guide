@@ -10,7 +10,7 @@ This document describes my preferred way to install Arch Linux.
 
 ---
 
-## Pre-flight Notes
+## A note regarding disk nodes
 
 All references to disk nodes in this document are shown as:
 
