@@ -347,7 +347,7 @@ Change it to this:
 
     HOOKS=("base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck")
 
-I also add `consolefont` to mine in order to specify a larger default font size for the login prompt with high res screens. I put the hook very early on:
+I also add `consolefont` to mine in order to specify a larger default font size for the login prompt with high res screens. I put the hook very early on.
 
     HOOKS=(consolefont base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
 
