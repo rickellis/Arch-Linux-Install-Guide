@@ -68,7 +68,7 @@ To test your connection:
 
 If the terminal font is too small, which can happen if you have a high res display, then install terminus fonts.
 
-First, update pacman caches:
+First, update the pacman databases:
 
     $   pacman -Sy
 
