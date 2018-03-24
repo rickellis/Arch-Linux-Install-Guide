@@ -10,23 +10,9 @@ This document describes my preferred way to install Arch Linux.
 
 ---
 
-## Pre-Flight Notes
+Before you begin you must prepare your installation media and make sure your BIOS is configured correctly:
 
-### Disk Node References
-
-All references to disk nodes in this document are shown as:
-
-    /dev/sd*
-
-You will need to change `sd*` to the actual node name you want to use on your drive. To get this info use either of these commands:
-
-    $   fdisk -l
-
-    $   lsblk
-
----
-
-### Prepare Installation Media
+## Prepare Installation Media
 
 [Download](https://www.archlinux.org/download/) the Arch Linux ISO and create a bootable USB drive. The simplest way to create bootable media on Linux is using the dd command:
 
@@ -36,7 +22,7 @@ On Mac use Etcher or UNetBootin. On Windows use Rufus.
 
 ---
 
-### BIOS Configuration
+## BIOS Configuration
 
 Hold F12 (or whatever key is used on your system) during startup to access bios. Then...
 
@@ -48,7 +34,25 @@ Hold F12 (or whatever key is used on your system) during startup to access bios.
 
 ---
 
+## Important: Regarding Disk Node Names
+
+All references to disk nodes in this document are shown as:
+
+    /dev/sd*
+
+You will need to change `sd*` to the actual node name you want to use on your drive. To get this info use either of these commands:
+
+    $   fdisk -l
+
+    $   lsblk
+
+Drive nodes might be called "sda", "sdb", etc., or they might be something completely different. On my Dell XPS, for example, they are called "nvme0n1" to indicate they are interfaced via PCIe.
+
+---
+
 # Installation Steps
+
+Here we go...
 
 ## Boot Arch from the USB Drive
 
