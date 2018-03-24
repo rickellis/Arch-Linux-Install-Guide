@@ -16,7 +16,7 @@ All references to disk nodes in this document are shown as:
 
     /dev/sd*
 
-You will need to change these to reflect your particular drive. To get this info use either of these commands:
+You will need to change `sd*` to the actual node name you want to use on your drive. To get this info use either of these commands:
 
     $   fdisk -l
 
