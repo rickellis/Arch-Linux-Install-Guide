@@ -245,7 +245,7 @@ If you only want a base Arch install with no additional packages, run:
 
     $   pacstrap -i /mnt base base-devel
 
-Typically I also install `git` so I can clone my post-install setup and config scripts, along with `dialog` and `wpa_supplicant` so that `wifi-menu` will work after booting into the new system. I also install `intel-ucode` to allow the Linux kernel to update the __[processor microcode](https://wiki.archlinux.org/index.php/microcode)__.
+Typically I also install `git` so I can clone my __[post-install setup and config scripts](https://github.com/rickellis/ArchMatic)__, along with `dialog` and `wpa_supplicant` so that `wifi-menu` will work after booting into the new system. I also install `intel-ucode` to allow the Linux kernel to update the __[processor microcode](https://wiki.archlinux.org/index.php/microcode)__.
 
     $   pacstrap -i /mnt base base-devel git dialog wpa_supplicant intel-ucode
 ---
