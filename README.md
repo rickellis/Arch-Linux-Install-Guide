@@ -309,15 +309,15 @@ __Notes:__ The timeout setting is the number of seconds the menu is displayed be
 
 ### Get the UUID for root
 
-In the next step we will update the boot loader config file. But first, we need to determine the UUID of our root partition. The root partition is where we installed our LVM on. If you don't recall the name of that node you can look it up using:
+In the next step we will update the boot loader config file. But first, we need to determine the __UUID__ of our __root__ partition. The root partition is where we installed our LVM on. If you don't recall the name of that node you can look it up using:
 
     $   lsblk
 
-You can now get the UUID that corresponds to the root node you just looked up using:
+Now use the node name you just looked up to get the UUID:
 
     $   blkid /dev/sd*
 
-You can either write down the UUID (which is painful given the length), or what I prefer to do is pipe the output of the above command to the config file that we will need that information in:
+You can either write down the UUID (which is painful given the length), or what I prefer to do is pipe the output of the above command into the config file that we will need that information in:
 
     $   blkid /dev/sda2 > /boot/loader/entries/arch.conf
 
@@ -325,22 +325,22 @@ Then open the config file in nano:
 
     $   nano /boot/loader/entries/arch.conf
 
-Arrow over to the UUID and `shift + arrow` to highlight it. Use `Ctl+K` to cut the line. It will remain in the clipboard for use next.
+Arrow over to the UUID and `shift + arrow` to highlight it. Use `Ctl+K` to cut the line, putting into the clipboard.
 
-Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR-UUID__ with the ID gathered previously, which you can paste from your clipboard using `Ctrl+U`.
+Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR_ID__ with the ID gathered previously, which you can paste from your clipboard using `Ctrl+U`.
 
     title   Arch Linux
     linux   /vmlinuz-linux
     initrd  /initramfs-linux.img
-    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
+    options cryptdevice=UUID=YOUR_ID:vg root=/dev/mapper/vg-root quiet splash rw
 
-__Note:__ If you installed the `intel-ucode` package your arch.conf file will have an additional line:
+__Note:__ If you installed the `intel-ucode` package earlier your arch.conf file will need an additional line:
 
     title   Arch Linux
     linux   /vmlinuz-linux
     initrd  /intel-ucode.img
     initrd  /initramfs-linux.img
-    options cryptdevice=UUID=YOUR-UUID:vg root=/dev/mapper/vg-root quiet rw
+    options cryptdevice=UUID=YOUR_ID:vg root=/dev/mapper/vg-root quiet splash rw
 
 ### Update Bootloader
 
