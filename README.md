@@ -394,7 +394,7 @@ Now save the file and generate the locale:
 
     $   locale-gen
 
-Add your language choice to the locale.conf file:
+Copy your language choice to the locale.conf file:
 
     $   echo LANG=en_US.UTF-8 > /etc/locale.conf
 
@@ -410,7 +410,7 @@ Run this command to find your timezone:
 
     $   tzselect
 
-Now, use the timezone you just looked up to create a symbolic link to /etc/localtime. __Note:__ Be sure to change __America/Denver__ to your timezone.
+Now use the timezone you just looked up to create a symbolic link to /etc/localtime. __Note:__ Be sure to change __America/Denver__ to your timezone.
 
     $   ln -s /usr/share/zoneinfo/America/Denver /etc/localtime
 
@@ -418,7 +418,7 @@ __Note:__ If you get an error that says `failed to create symbolic link '/etc/lo
 
     $   rm /etc/localtime
 
-Then you should be able to create the symbolic link.
+Then you should be able to create the above symbolic link.
 
 Update the hardware clock. I use UTC:
 
