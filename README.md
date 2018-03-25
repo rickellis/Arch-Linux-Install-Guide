@@ -462,7 +462,7 @@ Then run the following command, which will open the sudoers file:
 
     $   EDITOR=nano visudo
 
-Find this line and uncomment:
+Find this line and un-comment it:
 
     $   %wheel ALL=(ALL) ALL
 
@@ -485,7 +485,7 @@ If you plan on downloading packages from the Arch User Repository, add this:
     SigLevel = Never
     Server = http://repo.archlinux.fr/$arch
 
-In that same file add these (or uncomment if either are there). `color` give you colored output when running pacman commands, and `ILoveCandy` gives you the little yellow pacman animation.
+In that same file add these (or uncomment if either are there). The `color` directive gives you colored output when running pacman commands, and `ILoveCandy` enables the little yellow pacman animation.
 
     color
     ILoveCandy
