@@ -325,7 +325,7 @@ Then open the config file in nano:
 
     $   nano /boot/loader/entries/arch.conf
 
-Arrow over to the UUID and `shift + arrow` to highlight it. Use `Ctl+K` to cut the line, putting into the clipboard.
+Arrow over to the UUID and `shift + arrow` to highlight it (only the ID, not the surrounding quotes). Use `Ctl+K` to cut the line, putting into the clipboard.
 
 Now __delete everything__ in that file and add the following info. Make sure to replace __YOUR_ID__ with the ID gathered previously, which you can paste from your clipboard using `Ctrl+U`.
 
