@@ -229,20 +229,26 @@ Open the mirrorlist file using:
 
     $   nano /etc/pacman.d/mirrorlist
 
-Then make sure that __only__ servers in your country are un-commented. Alternately (what I do), you can `shift + arrow down` to highlight servers you don't want and `Ctrl + K` to cut them. Save the file then run these two commands:
+Then make sure that __only__ servers in your country are un-commented. Alternately (what I do), you can `shift + arrow down` to highlight servers you don't want and `Ctrl + K` to cut them. Save the file then run. Then:
+
+Make a backup copy of the mirrorlist file:
 
     $   sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+
+Now run `rankmirrors`. It will take the server data from the backup mirrorlist, rank them, then copy the data to the original mirrorlist file:
 
     $   rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
 
 ### Reflector
 
-Install __Reflector__ using:
+First, make sure the pacman databases are up-to-date:
+
+    $   pacman -Sy
+
+Install __Reflector__:
 
     $   pacman -S reflector rsync curl
-
-__NOTE:__ If you get an error regarding missing databases, synchronize them using `pacman -Sy` then try installing Reflector again.
 
 Now generate the new mirrorlist. Note: If you are in a different country change "United States" to your country.
 
