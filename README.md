@@ -221,7 +221,7 @@ We need to create a couple directories while we're at it.
 
 ## Update Mirrorlist
 
-Before we download the Arch packages we should rank the mirrorlist to ensure our download speeds are as good as possible. There are two ways to accomplish this. The first (rankmirrors, which is what I typically use) does not require any additional packages, the other (reflector) requires a package download. Both are described next:
+Before we download the Arch packages we should rank the mirrorlist to ensure our download speeds are as good as possible. There are two ways to accomplish this. The first (rankmirrors, which is what I typically use) does not require any additional packages, the other (reflector) requires a package download. Both are described next. Pick one.
 
 ### Rankmirrors
 
