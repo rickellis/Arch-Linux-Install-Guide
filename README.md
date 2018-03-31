@@ -364,7 +364,7 @@ Change it to this:
 
     HOOKS=("base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck")
 
-If you installed terminus fonts earlier in order to increase the font size of the temrinal, add `consolefont` to the HOOKS as well. I put the hook first, so that it gets initiallzed early enough to increase the font size during boot.
+If you installed terminus fonts earlier in order to increase the font size of the temrinal, add `consolefont` to the HOOKS as well. I put the hook first, so that it gets initiallzed early enough to increase the font size during boot. Note that the fonts will have to be installed once you've booted into the new system.
 
     HOOKS=(consolefont base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
 
