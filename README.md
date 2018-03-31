@@ -229,7 +229,7 @@ Open the mirrorlist file using:
 
     $   nano /etc/pacman.d/mirrorlist
 
-Then make sure that __only__ servers in your country are un-commented. Alternately (what I do), you can `shift + arrow down` to highlight servers you don't want and `Ctrl + K` to cut them. Save the file then run. Then:
+Then make sure that __only__ servers in your country are un-commented. Alternately (what I do), you can `shift + arrow down` to highlight servers you don't want and `Ctrl + K` to cut them. Save the file. Then:
 
 Make a backup copy of the mirrorlist file:
 
